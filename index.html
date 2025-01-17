@@ -393,7 +393,6 @@
               >
             </div>
           </div>
-
           <div id="criminal-history" class="mt-4">
             <h6 class="mb-2 text-sm">
               The police background check services will report on criminal
@@ -434,45 +433,35 @@
               - Any charges dealt with outside of Canada.
             </p>
 
-            <div id="criminal-history-details" class="hidden mt-4">
-              <h3 class="text-lg font-bold">Declaration of Criminal Record</h3>
-              <div
-                id="validation-error"
-                class="hidden text-red-500 text-sm mb-4"
-              ></div>
-              <div id="criminal-record-entries" class="space-y-4">
-                <div class="record-entry flex space-x-2">
-                  <input
-                    type="text"
-                    placeholder="Offence"
-                    class="w-1/3 p-2 border rounded-lg"
-                  />
-                  <input
-                    type="date"
-                    placeholder="Sentence Date"
-                    class="w-1/3 p-2 border rounded-lg"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Court Location"
-                    class="w-1/3 p-2 border rounded-lg"
-                  />
-                  <button
-                    type="button"
-                    class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
-                    onclick="removeRow(this)"
-                  >
-                    Delete
-                  </button>
-                </div>
+            <div id="criminal-record-entries" class="space-y-4">
+              <div class="record-entry flex space-x-2">
+                <input
+                  
+                  type="text"
+                  placeholder="Offence"
+                  class="w-1/3 p-2 border rounded-lg"
+                />
+
+                <input
+                 
+                  type="date"
+                  placeholder="Sentence Date"
+                  class="w-1/3 p-2 border rounded-lg"
+                />
+                <input
+               
+                  type="text"
+                  placeholder="Court Location"
+                  class="w-1/3 p-2 border rounded-lg"
+                />
+                <button
+                  type="button"
+                  class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+                  onclick="removeRow(this)"
+                >
+                  Delete
+                </button>
               </div>
-              <button
-                type="button"
-                class="bg-green-500 text-white py-2 px-6 rounded hover:bg-green-600 mt-4"
-                onclick="addRow()"
-              >
-                Add Row
-              </button>
             </div>
 
             <button
