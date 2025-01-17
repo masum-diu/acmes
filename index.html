@@ -1,0 +1,1922 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Acme</title>
+    <style>
+      /* Custom styling for invalid inputs */
+      .invalid {
+        border-color: red !important;
+      }
+      .step-active {
+        background: linear-gradient(to right, #4ade80, #3b82f6);
+        color: white;
+      }
+      .step-inactive {
+        background: #e5e7eb;
+        color: #6b7280;
+      }
+      .line-active {
+        background: linear-gradient(to right, #4ade80, #3b82f6);
+      }
+      .border-red-500 {
+        border-color: #f56565 !important;
+      }
+
+      .error-message {
+        color: #f56565;
+        font-size: 0.875rem;
+      }
+
+      .hidden {
+        display: none;
+      }
+      #signatureCanvas {
+        border: 1px solid #000;
+        width: 300px;
+        height: 150px;
+      }
+      .container {
+        margin-top: 20px;
+      }
+      .buttons {
+        margin-top: 20px;
+      }
+      #signaturePreview {
+        margin-top: 20px;
+        border: 1px solid #000;
+        width: 300px;
+        height: 150px;
+      }
+      nav{
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="max-w-6xl mx-auto py-5 px-5">
+      <nav class="bg-gray-200 shadow-sm w-full flex-row space-x-2">
+        <img class="w-28 my-1 p-1" src="https://i.imghippo.com/files/d1912QA.png" alt="25x25 Image" />
+        <div>
+          <h4 class="font-bold">ZAMAN, Mobin Mixed</h4>
+          <p>2006/12/13</p>
+        </div>
+      </nav>
+      <div
+        class="flex flex-wrap sm:flex-nowrap items-center justify-between mb-3"
+      >
+        <!-- Step 1 -->
+        <div class="flex flex-col items-center mb-4 sm:mb-0">
+          <div
+            id="indicator-1"
+            class="step-active w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full font-bold text-sm sm:text-lg transition"
+          >
+            1
+          </div>
+          <!-- <p class="mt-2 text-xs sm:text-sm font-">Biographic Details</p> -->
+        </div>
+        <!-- Line 1 -->
+        <div
+          class="flex-1 h-1 bg-gray-300 mx-2 line-inactive"
+          id="line-1"
+        ></div>
+        <!-- Step 2 -->
+        <div class="flex flex-col items-center mb-4 sm:mb-0">
+          <div
+            id="indicator-2"
+            class="step-inactive w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full font-bold text-sm sm:text-lg transition"
+          >
+            2
+          </div>
+          <!-- <p class="mt-2 text-xs sm:text-sm font-medium">Job Sector</p> -->
+        </div>
+        <!-- Line 2 -->
+        <div
+          class="flex-1 h-1 bg-gray-300 mx-2 line-inactive"
+          id="line-2"
+        ></div>
+        <!-- Step 3 -->
+        <div class="flex flex-col items-center mb-4 sm:mb-0">
+          <div
+            id="indicator-3"
+            class="step-inactive w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full font-bold text-sm sm:text-lg transition"
+          >
+            3
+          </div>
+          <!-- <p class="mt-2 text-xs sm:text-sm font-medium">Contact Info</p> -->
+        </div>
+        <!-- Line 3 -->
+        <div
+          class="flex-1 h-1 bg-gray-300 mx-2 line-inactive"
+          id="line-3"
+        ></div>
+        <!-- Step 4 -->
+        <div class="flex flex-col items-center mb-4 sm:mb-0">
+          <div
+            id="indicator-4"
+            class="step-inactive w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full font-bold text-sm sm:text-lg transition"
+          >
+            4
+          </div>
+          <!-- <p class="mt-2 text-xs sm:text-sm font-medium">Preferences</p> -->
+        </div>
+        <!-- Line 4 -->
+        <div
+          class="flex-1 h-1 bg-gray-300 mx-2 line-inactive"
+          id="line-4"
+        ></div>
+        <!-- Step 5 -->
+        <div class="flex flex-col items-center mb-4 sm:mb-0">
+          <div
+            id="indicator-5"
+            class="step-inactive w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full font-bold text-sm sm:text-lg transition"
+          >
+            5
+          </div>
+          <!-- <p class="mt-2 text-xs sm:text-sm font-medium">Confirmation</p> -->
+        </div>
+        <div
+          class="flex-1 h-1 bg-gray-300 mx-2 line-inactive"
+          id="line-5"
+        ></div>
+        <div class="flex flex-col items-center mb-4 sm:mb-0">
+          <div
+            id="indicator-6"
+            class="step-inactive w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full font-bold text-sm sm:text-lg transition"
+          >
+            6
+          </div>
+          <!-- <p class="mt-2 text-xs sm:text-sm font-medium">Confirmation</p> -->
+        </div>
+        <!-- <div
+          class="flex-1 h-1 bg-gray-300 mx-2 line-inactive"
+          id="line-6"
+        ></div> -->
+      </div>
+      <div id="step-1" class="step">
+        <h2 class="text-2xl font-bold mb-6">Biographic Details</h2>
+
+        <!-- Error message container -->
+        <div id="error-message" class="text-red-600 mb-4 hidden">
+          <p class="font-medium text-center" id="general-error-message">
+            Please correct the highlighted fields in error.
+          </p>
+          <p
+            class="font-medium text-center hidden"
+            id="telephone-error-message"
+          >
+            * Telephone must be 10 digits.
+          </p>
+          <p class="font-medium text-center hidden" id="sex-error-message">
+            * Please select sex of applicant
+          </p>
+        </div>
+
+        <form id="form">
+          <div class="mb-4 sm:flex sm:space-x-4">
+            <div class="sm:w-1/2 space-y-2">
+              <label for="surname" class="block text-sm font-medium"
+                >Surname (last name):</label
+              >
+              <input
+                type="text"
+                id="surname"
+                placeholder="Surname"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div class="sm:w-1/2 space-y-2">
+              <label for="firstName" class="block text-sm font-medium"
+                >First Name:</label
+              >
+              <input
+                type="text"
+                id="firstName"
+                placeholder="First Name"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+          </div>
+          <div class="mb-4 sm:flex sm:space-x-4">
+            <div class="sm:w-1/2 space-y-2">
+              <label for="middlename" class="block text-sm font-medium"
+                >Middle Name:</label
+              >
+              <input
+                type="text"
+                id="middlename"
+                placeholder="Middle Name:"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div class="sm:w-1/2 space-y-2">
+              <label for="surnameatbirth" class="block text-sm font-medium"
+                >Surname at birth:</label
+              >
+              <input
+                type="text"
+                id="surnameatbirth:"
+                placeholder="Surname at birth:"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+          <div class="mb-4 sm:flex sm:space-x-4">
+            <div class="sm:w-1/2 space-y-2">
+              <label for="formername" class="block text-sm font-medium"
+                >Former name(s):</label
+              >
+              <input
+                type="text"
+                id="formername"
+                placeholder="Former name"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div class="sm:w-1/2 space-y-2">
+              <label for="placeofbirth" class="block text-sm font-medium"
+                >Place of birth:
+              </label>
+              <input
+                type="text"
+                id="placeofbirth
+                "
+                placeholder="Place of birth
+                "
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="mb-4 sm:flex sm:space-x-4">
+            <div class="sm:w-1/2 space-y-2">
+              <label for="dob" class="block text-sm font-medium"
+                >Date of Birth:</label
+              >
+              <input
+                type="date"
+                id="dob"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div class="sm:w-1/2 space-y-2">
+              <label for="sex" class="block text-sm font-medium">Sex:</label>
+              <select
+                id="sex"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="" disabled selected>Select your sex</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Not specified</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- New Sex Field -->
+
+          <!-- New Telephone Number Field -->
+          <div class="mb-4 sm:flex sm:space-x-4">
+            <div class="sm:w-1/2 space-y-2">
+              <label for="telephone" class="block text-sm font-medium"
+                >Telephone:</label
+              >
+              <input
+                type="tel"
+                id="telephone"
+                placeholder="1234567890"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                pattern="^\d{10}$"
+                title="Telephone number must be 10 digits"
+              />
+            </div>
+            <div class="sm:w-1/2 space-y-2">
+              <label for="emailaddress" class="block text-sm font-medium"
+                >Email Address:
+              </label>
+              <input
+                type="text"
+                id="emailaddress
+                "
+                placeholder="Email Address
+                "
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+          </div>
+          <div class="my-2 flex-row items-center space-x-2 justify-center">
+            <a
+              class="text-green-600 rounded-md border border-green-600 font-medium py-1 px-1 hover:bg-green-600 hover:text-white transition inline-flex items-center cursor-pointer"
+              onclick="openModal()"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                class="w-4 h-4 mr-2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              Add Address
+            </a>
+            <a
+              class="text-sm font-medium text-green-600"
+              style="cursor: pointer"
+              >Home Addresses for last 5 years</a
+            >
+            <!-- Saved Address List -->
+            <div id="addressList" class="mt-6"></div>
+            <!-- <button
+              class="text-blue-500 hover:text-blue-700 underline"
+              onclick="openModal()"
+            >
+              Add or Edit Address
+            </button> -->
+          </div>
+
+          <!-- Modal -->
+
+          <div class="mt-6">
+            <button
+              type="button"
+              id="nextButton"
+              class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </div>
+      <div id="step-2" class="step hidden mb-4">
+        <h2 class="text-2xl font-bold my-6">Declaration</h2>
+        <form id="step-2-form" onsubmit="return validateAndProceed1(event)">
+          <div class="mb-4">
+            <div>
+              <input
+                type="radio"
+                name="criminal-history"
+                id="option1"
+                value="no-criminal-history"
+                class="p-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                onclick="toggleCriminalHistory(false)"
+              />
+              <label for="option1" class="font-medium"
+                >No criminal history to declare</label
+              >
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="criminal-history"
+                id="option2"
+                value="declare-criminal-history"
+                class="p-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                onclick="toggleCriminalHistory(true)"
+              />
+              <label for="option2" class="font-medium"
+                >Declare Criminal History</label
+              >
+            </div>
+          </div>
+
+          <div id="criminal-history" class="mt-4">
+            <h6 class="mb-2 text-sm">
+              The police background check services will report on criminal
+              record information. If you have a criminal record, you must
+              declare it so that the police check can confirm your information.
+              In this case, please select
+              <span class="font-medium">"Declare Criminal History"</span> above.
+
+              <br />
+              On the other hand, if you do not have a criminal record, please
+              select
+              <span class="font-medium">"No criminal history to declare" </span>
+              above and then click <span class="font-medium">"Next"</span>.
+            </h6>
+          </div>
+          <div id="criminal-history-details" class="hidden mt-4">
+            <h3 class="text-lg font-bold">Declaration of Criminal Record</h3>
+            <p class="text-sm mb-4">
+              Information is collected and disclosed in accordance with federal,
+              provincial, and municipal laws.
+              <br /><br />
+              A Declaration of Criminal Record does not constitute a Certified
+              Criminal Record by the RCMP and may not contain all criminal
+              record convictions.
+              <br /><br />
+              <strong>DO NOT DECLARE THE FOLLOWING:</strong><br />
+              - Absolute discharges or Conditional discharges, pursuant to the
+              Criminal Code, section 730.<br />
+              - Any charges for which you have received a Record Suspension
+              (Pardon), pursuant to the Criminal Records Act.<br />
+              - Any offences while you were a “young person” (twelve years old
+              but less than eighteen years old), pursuant to the Youth Criminal
+              Justice Act.<br />
+              - Any charges for which you were not convicted, for example,
+              charges that were withdrawn, dismissed, received a stay of
+              proceedings, etc.<br />
+              - Any provincial or municipal offences.<br />
+              - Any charges dealt with outside of Canada.
+            </p>
+
+            <div id="criminal-history-details" class="hidden mt-4">
+              <h3 class="text-lg font-bold">Declaration of Criminal Record</h3>
+              <div
+                id="validation-error"
+                class="hidden text-red-500 text-sm mb-4"
+              ></div>
+              <div id="criminal-record-entries" class="space-y-4">
+                <div class="record-entry flex space-x-2">
+                  <input
+                    type="text"
+                    placeholder="Offence"
+                    class="w-1/3 p-2 border rounded-lg"
+                  />
+                  <input
+                    type="date"
+                    placeholder="Sentence Date"
+                    class="w-1/3 p-2 border rounded-lg"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Court Location"
+                    class="w-1/3 p-2 border rounded-lg"
+                  />
+                  <button
+                    type="button"
+                    class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+                    onclick="removeRow(this)"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+              <button
+                type="button"
+                class="bg-green-500 text-white py-2 px-6 rounded hover:bg-green-600 mt-4"
+                onclick="addRow()"
+              >
+                Add Row
+              </button>
+            </div>
+
+            <button
+              type="button"
+              class="bg-green-500 text-white py-2 px-6 rounded hover:bg-green-600 mt-4"
+              onclick="addRow()"
+            >
+              Add Row
+            </button>
+          </div>
+
+          <div class="flex justify-between mt-6">
+            <button
+              type="button"
+              onclick="goToStep(1)"
+              class="bg-gray-400 text-white py-2 px-6 rounded hover:bg-gray-500"
+            >
+              Back
+            </button>
+            <button
+              type="submit"
+              class="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </div>
+      <div id="step-3" class="step hidden">
+        <form id="step-3-form" onsubmit="return validateAndProceed(event)">
+          <h2 class="text-2xl font-bold my-3">
+            Please enter your details for the following services
+          </h2>
+          <h3 class="mb-2">
+            Click the EDIT button to provide information specific to that
+            service.
+          </h3>
+
+          <div class="accordion-item">
+            <button
+              type="button"
+              onclick="toggleAccordion(1)"
+              class="w-full text-left p-2 bg-gray-700 text-white hover:bg-gray-600 focus:outline-none border rounded"
+            >
+              <div class="flex justify-between items-center">
+                <span class="font-semibold"
+                  >1: Consumer credit check - Report of caredit bureau</span
+                >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  class="w-5 h-5 transition-transform duration-200 transform rotate-0 accordion-icon"
+                  id="accordion-icon-1"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+            <div id="accordion-content-1" class="accordion-content">
+              <div class="pt-3">
+                <label for="socialInsuranceNumber" class="block mb-2"
+                  >Social Insurance Number:</label
+                >
+                <input
+                  required
+                  oninput="handleInput(this)"
+                  type="text"
+                  id="socialInsuranceNumber"
+                  placeholder="Social Insurance Number"
+                  class="w-full p-2 mb-2 border rounded"
+                />
+                <p
+                  id="socialInsuranceNumber-error"
+                  class="error-message hidden text-red-500 mb-2"
+                >
+                  This field is required.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Accordion Item 2 -->
+          <div class="accordion-item">
+            <button
+              type="button"
+              onclick="toggleAccordion(2)"
+              class="w-full text-left p-2 bg-gray-700 text-white hover:bg-gray-600 focus:outline-none rounded-lgw-full text-left p-2 bg-gray-700 text-white hover:bg-gray-600 focus:outline-none border rounded"
+            >
+              <div class="flex justify-between items-center">
+                <span class="font-semibold"
+                  >2: Education/credential verification (Dhaka University)</span
+                >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  class="w-5 h-5 transition-transform duration-200 transform rotate-0 accordion-icon"
+                  id="accordion-icon-2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+            <div id="accordion-content-2" class="accordion-content p-4">
+              <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="institutionType" class="block text-sm font-medium"
+                    >Institution Type:</label
+                  >
+                  <select
+                    required
+                    id="institutionType"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Select</option>
+                    <option value="CdnPublic">
+                      Canadian Public Institution
+                    </option>
+                    <option value="CdnPrivate">
+                      Canadian Private Institution
+                    </option>
+                    <option value="Non-Cdn">Institution Outside Canada</option>
+                  </select>
+                  <p
+                    id="institutionType-error"
+                    class="error-message hidden text-red-500"
+                  >
+                    This field is required.
+                  </p>
+                </div>
+                <div class="sm:w-1/2 space-y-2">
+                  <label
+                    for="educationInstitution"
+                    class="block text-sm font-medium"
+                    >Education Institution:
+                  </label>
+                  <input
+                    required
+                    type="text"
+                    id="name"
+                    placeholder="Education Institution:
+                    "
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                  <p
+                    id="educationInstitution-error"
+                    class="error-message hidden text-red-500"
+                  >
+                    This field is required.
+                  </p>
+                </div>
+              </div>
+              <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="location" class="block text-sm font-medium"
+                    >Location:</label
+                  >
+                  <input
+                    type="text"
+                    id="location"
+                    placeholder="Location"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="telephoneNumber" class="block text-sm font-medium"
+                    >Telephone Number:</label
+                  >
+                  <input
+                    type="text"
+                    id="telephoneNumber"
+                    placeholder="Telephone Number"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+              <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="studentNumber" class="block text-sm font-medium"
+                    >Student Number:</label
+                  >
+                  <input
+                    type="text"
+                    id="studentNumber"
+                    placeholder="Student Number"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="credential" class="block text-sm font-medium"
+                    >Credential(s):</label
+                  >
+                  <input
+                    required
+                    type="text"
+                    id="credential"
+                    placeholder="Credential(s)"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+              <div class="mb-4 space-y-2">
+                <div class="space-y-2">
+                  <label
+                    for="credentialstatus"
+                    class="block text-sm font-medium"
+                    >Credential status:</label
+                  >
+                  <select
+                    required
+                    id="credentialstatus"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Select</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Active">Currently enrolled</option>
+                    <option value="Incomplete">Did not complete</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="from" class="block text-sm font-medium"
+                    >From:</label
+                  >
+                  <input
+                    required
+                    type="date"
+                    id="from"
+                    placeholder=""
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="to" class="block text-sm font-medium">To:</label>
+                  <input
+                    required
+                    type="date"
+                    id="to"
+                    placeholder=""
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button
+              type="button"
+              onclick="toggleAccordion(3)"
+              class="w-full text-left p-2 bg-gray-700 text-white hover:bg-gray-600 focus:outline-none rounded-lgw-full text-left p-2 bg-gray-700 text-white hover:bg-gray-600 focus:outline-none border rounded"
+            >
+              <div class="flex justify-between items-center">
+                <span class="font-semibold"
+                  >3: Employment - Verification (Certes Solutions Inc)</span
+                >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  class="w-5 h-5 transition-transform duration-200 transform rotate-0 accordion-icon"
+                  id="accordion-icon-3"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+            <div id="accordion-content-3" class="accordion-content p-4">
+              <p>This is another section that can be expanded or collapsed.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button
+              type="button"
+              onclick="toggleAccordion(4)"
+              class="w-full text-left p-2 bg-gray-700 text-white hover:bg-gray-600 focus:outline-none rounded-lgw-full text-left p-2 bg-gray-700 text-white hover:bg-gray-600 focus:outline-none border rounded"
+            >
+              <div class="flex justify-between items-center">
+                <span class="font-semibold"
+                  >4: Employment - Reference (Ed Escubedo)</span
+                >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  class="w-5 h-5 transition-transform duration-200 transform rotate-0 accordion-icon"
+                  id="accordion-icon-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+            <div id="accordion-content-4" class="accordion-content p-4">
+              <h6 class="text-red-500 font-semibold">
+                Please take care to supply accurate information, particularly
+                for the reference name, email address and telephone number.
+                Incorrect information can result in extensive delays.
+              </h6>
+              <h6 class="font-semibold mb-3">
+                Reference must be a former or current direct supervisor/manager.
+                A family member, co-worker or friend is not a suitable
+                reference.
+              </h6>
+              <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="email" class="block text-sm font-medium"
+                    >Country:</label
+                  >
+                  <select
+                    id="sector"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Select a Country</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Bangladesh">United States</option>
+                    <option value="other">Other (specify)</option>
+                  </select>
+                </div>
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="name" class="block text-sm font-medium"
+                    >Street Name:</label
+                  >
+                  <input
+                    type="text"
+                    id="name"
+                    placeholder="Street name"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+              <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="name" class="block text-sm font-medium"
+                    >Apartment:</label
+                  >
+                  <input
+                    type="text"
+                    id="name"
+                    placeholder="Apartment"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="email" class="block text-sm font-medium"
+                    >City:</label
+                  >
+                  <input
+                    type="text"
+                    id="email"
+                    placeholder="city"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+              <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="name" class="block text-sm font-medium"
+                    >Province:</label
+                  >
+                  <input
+                    type="text"
+                    id="name"
+                    placeholder="Province"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="email" class="block text-sm font-medium"
+                    >Postal Code:</label
+                  >
+                  <input
+                    type="text"
+                    id="email"
+                    placeholder="Postal Code"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+              <div class="mb-4 space-y-2">
+                <label for="name" class="block text-sm font-medium"
+                  >Street Number:</label
+                >
+                <input
+                  type="text"
+                  id="name"
+                  placeholder="Street Number"
+                  class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="name" class="block text-sm font-medium"
+                    >From:</label
+                  >
+                  <input
+                    type="date"
+                    id="name"
+                    placeholder=""
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="email" class="block text-sm font-medium"
+                    >To:</label
+                  >
+                  <input
+                    type="date"
+                    id="email"
+                    placeholder=""
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-between mt-3">
+            <button
+              type="button"
+              onclick="goToStep(2)"
+              class="bg-gray-400 text-white py-2 px-6 rounded hover:bg-gray-500"
+            >
+              Back
+            </button>
+            <button
+              type="submit"
+              class="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </div>
+      <div id="step-4" class="step hidden">
+        <h2 class="text-2xl font-bold my-6">Waiver and Acknowledgement</h2>
+        <form id="step-4-form" onsubmit="return validateAndProceed4(event)">
+          <h6 class="bg-gray-900 p-1 rounded text-white">
+            REASON for Background Check
+          </h6>
+          <div class="mb-2 space-y-2 mt-2">
+            <label for="middleName" class="block text-sm font-medium"
+              >Reason for your request
+            </label>
+            <input
+              required
+              type="text"
+              id="middleName"
+              placeholder="Reason for your request"
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <h6 class="bg-gray-900 p-1 rounded text-white my-4">
+            AUTHORIZATION AND WAIVER to provide information obtained from a
+            background check
+          </h6>
+          <div class="my-4">
+            <input
+              type="checkbox"
+              id="option1"
+              value="option1"
+              class="p-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            />
+            <label class="font-bold" for="option1"
+              >I certify that the information set out by me in this application
+              is true and correct to the best of my ability.</label
+            >
+          </div>
+          <div
+            onclick="openmyModal()"
+            class="border-black border rounded shadow-lg p-1 my-2 w-40"
+            style="cursor: pointer"
+          >
+            <a>Click to Sign Waiver</a>
+          </div>
+          <canvas id="signaturePreview" width="300" height="150"></canvas>
+          <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+            <div class="sm:w-1/2 space-y-2">
+              <label for="agreedby" class="block text-sm font-medium"
+                >Agreed by:</label
+              >
+              <input
+                required
+                type="text"
+                id="agreedby"
+                placeholder="Agreed at"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div class="sm:w-1/2 space-y-2">
+              <label for="agreedat" class="block text-sm font-medium"
+                >Agreed at:</label
+              >
+              <input
+                required
+                type="text"
+                id="agreedat"
+                placeholder="Agreed at"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          <div class="flex justify-between">
+            <button
+              type="button"
+              onclick="goToStep(3)"
+              class="bg-gray-400 text-white py-2 px-6 rounded hover:bg-gray-500"
+            >
+              Back
+            </button>
+            <button
+              type="submit"
+              class="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </div>
+      <div id="step-5" class="step hidden">
+        <h2 class="text-2xl font-bold my-6">Confirmation</h2>
+        <p class="text-md mb-6">
+          You have now completed the forms for your background check request,
+          and no changes will be permitted to your personal data from this point
+          forward. <br />
+          Please confirm you wish to proceed, or click "Back" if you want to
+          make any changes to your personal information.
+        </p>
+        <div class="flex justify-between">
+          <button
+            type="button"
+            onclick="goToStep(4)"
+            class="bg-gray-400 text-white py-2 px-6 rounded hover:bg-gray-500"
+          >
+            Back 
+          </button>
+          <button
+            type="button"
+            onclick="goToStep(6)"
+            class="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600"
+          >
+            Proceed to Process Request
+          </button>
+        </div>
+      </div>
+      <div id="step-6" class="step hidden">
+        <h2 class="text-2xl font-bold my-6">Manual Identity Verification</h2>
+        <p class="text-md mb-6">
+          An email has been sent requesting verification of your identity. It
+          has been sent to <br />
+          Canadian Bank Note Company <br />
+          Attn: Emilie Capowski, Contract Authority <br />Telephone:
+          613.722-3422 ext 6097 <br />Email: CBNhome@certec.ca <br />We have
+          asked them to help verify your identity, If they do not already have
+          copies of two pieces of your identification, they will be in touch to
+          request these from you.
+        </p>
+        <button onclick="goToStep(1)" class="bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600">
+          Start Again
+        </button>
+      </div>
+    </div>
+  
+    </div>
+    <div
+      id="addressModal"
+      class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50 hidden"
+    >
+      <div class="bg-white rounded-lg p-6 sm:w-1/2 w-full max-h-[90%] overflow-y-auto">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4" id="modalTitle">
+          Home Address
+        </h2>
+        <div id="error-message" class="text-red-600 mb-4 hidden">
+          <p class="font-medium text-center" id="general-error-message">
+            Please correct the highlighted fields in error.
+          </p>
+        </div>
+        <form id="addressForm" >
+          <!-- Home Address 1 -->
+          <!-- <h6
+            class="font-medium rounded text-md bg-gray-900 text-white p-1 mb-2"
+          >
+            Home Address 1:
+          </h6> -->
+          <div class="mb-4 space-y-2">
+            <div class="space-y-2">
+              <label for="country1" class="block text-sm font-medium">Country:</label>
+              <select
+                required
+                id="country1"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select a Country</option>
+                <option value="Canada">Canada</option>
+                <option value="United States">United States</option>
+                <option value="other">Other (specify)</option>
+              </select>
+            </div>
+            <div class="space-y-2 hidden" id="otherCountryInput">
+              <label for="otherCountry" class="block text-sm font-medium">Other Country:</label>
+              <input
+                type="text"
+                id="otherCountry"
+                placeholder="Other Country"
+                name="otherCountry"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+          
+          <script>
+            const countrySelect = document.getElementById("country1");
+            const otherCountryInput = document.getElementById("otherCountryInput");
+          
+            countrySelect.addEventListener("change", function () {
+              if (this.value === "other") {
+                otherCountryInput.classList.remove("hidden");
+              } else {
+                otherCountryInput.classList.add("hidden");
+              }
+            });
+          </script>
+          
+          <div class="mb-4 space-y-2 " >
+            <!-- <label for="streetNumber1" class="block text-sm font-medium">Street Number:</label> -->
+            <label for="street1" class="block text-sm font-medium"
+            >Street Name:</label
+          >
+
+          <input
+            required
+            type="text"
+            id="street1"
+            placeholder="Street name"
+            class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+          </div>
+  
+          <div>
+            
+          </div>
+          <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+            <div class="sm:w-1/2 space-y-2">
+              <label for="apartment1" class="block text-sm font-medium"
+                >Apartment:</label
+              >
+              <input
+                required
+                type="text"
+                id="apartment1"
+                placeholder="Apartment"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div class="sm:w-1/2 space-y-2">
+              <label for="city1" class="block text-sm font-medium">City:</label>
+              <input
+                required
+                type="text"
+                id="city1"
+                placeholder="City"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+            <div class="sm:w-1/2 space-y-2">
+              <label for="province1" class="block text-sm font-medium"
+                >Province:</label
+              >
+              <input
+                required
+                type="text"
+                id="province1"
+                placeholder="Province"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                pattern="^(NL|PE|NS|NB|QC|ON|MB|SK|AB|BC|YT|NT|NU)$"
+                oninvalid="this.setCustomValidity('Please enter one of: NL, PE, NS, NB, QC, ON, MB, SK, AB, BC, YT, NT, NU')"
+                oninput="this.setCustomValidity('')"
+              />
+            </div>
+
+            <div class="sm:w-1/2 space-y-2">
+              <label for="postal1" class="block text-sm font-medium"
+                >Postal Code:</label
+              >
+              <input
+                type="text"
+                id="postal1"
+                placeholder="Postal Code"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                required
+                pattern="[A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9]"
+                oninvalid="this.setCustomValidity('Please enter a postal code in the format A1A1A1')"
+                oninput="this.setCustomValidity('')"
+              />
+            </div>
+          </div>
+
+          <div class="mb-4 space-y-2">
+            <label for="streetNumber1" class="block text-sm font-medium"
+              >Street Number:</label
+            >
+            <input
+              required
+              type="text"
+              id="streetNumber1"
+              placeholder="Street Number"
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+            <div class="sm:w-1/2 space-y-2">
+              <label for="fromDate1" class="block text-sm font-medium"
+                >From:</label
+              >
+              <input
+                required
+                type="date"
+                id="fromDate1"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                onchange="validateDates()"
+              />
+            </div>
+            <div class="sm:w-1/2 space-y-2">
+              <label for="toDate1" class="block text-sm font-medium">To:</label>
+              <input
+                required
+                type="date"
+                id="toDate1"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                onchange="validateDates()"
+              />
+            </div>
+          </div>
+
+          <!-- Submit & Cancel Buttons -->
+          <div class="mt-4 flex justify-end space-x-2">
+            <button
+              type="button"
+              class="text-gray-600 bg-gray-200 px-4 py-2 rounded-md"
+              onclick="closeModal()"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="text-white bg-blue-500 px-4 py-2 rounded-md"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div
+      id="myModal"
+      class="fixed inset-0 hidden bg-gray-900 bg-opacity-50 flex items-center justify-center z-50"
+    >
+      <div class="bg-white w-full max-w-lg p-6 rounded-lg shadow-lg">
+        <h2 class="text-xl font-bold mb-4">Authorization and Waiver</h2>
+        <p class="text-sm text-gray-700 mb-4">
+          I have engaged Investigative Solutions Network Inc. (the Service
+          Provider) to conduct the inquiries in connection with my application
+          for background check services. <br />
+          The information collected from me and about me will be kept strictly
+          confidential and will be obtained for and disclosed only to me or,
+          only upon my express consent or as may be required or permitted by
+          law.
+        </p>
+        <canvas id="signatureCanvas" width="300" height="150"></canvas>
+        <div class="flex justify-end mt-2">
+          <button
+  onclick="saveSignature();"
+  class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mr-2"
+>
+  Save
+</button>
+
+          <button
+            onclick="clearCanvas()"
+            class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mr-2"
+          >
+            Clear
+          </button>
+          <button
+            onclick="closemyModal()"
+            class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function goToStep(step) {
+        document.querySelectorAll(".step").forEach((stepDiv) => {
+          stepDiv.classList.add("hidden");
+        });
+        document.getElementById(`step-${step}`).classList.remove("hidden");
+
+        // Update step indicators and lines
+        document
+          .querySelectorAll(".step-active, .step-inactive")
+          .forEach((indicator, index) => {
+            if (index + 1 <= step) {
+              indicator.classList.add("step-active");
+              indicator.classList.remove("step-inactive");
+            } else {
+              indicator.classList.add("step-inactive");
+              indicator.classList.remove("step-active");
+            }
+          });
+
+        document.querySelectorAll(".line-inactive").forEach((line, index) => {
+          if (index + 1 < step) {
+            line.classList.add("line-active");
+            line.classList.remove("bg-gray-300");
+          } else {
+            line.classList.add("bg-gray-300");
+            line.classList.remove("line-active");
+          }
+        });
+      }
+
+      const form = document.getElementById("form");
+      const formAddres = document.getElementById("addressForm");
+      const nextButton = document.getElementById("nextButton");
+      const errorMessageDiv = document.getElementById("error-message");
+      const generalErrorMessage = document.getElementById(
+        "general-error-message"
+      );
+      const telephoneErrorMessage = document.getElementById(
+        "telephone-error-message"
+      );
+      const sexErrorMessage = document.getElementById("sex-error-message");
+
+      // Function to validate the entire form
+      const validateForm = () => {
+        const inputs = document.querySelectorAll(
+          "#form input[required], #form select[required]"
+        );
+
+        let isGeneralValid = true;
+        let isTelephoneValid = true;
+        let isSexValid = true;
+
+        // Validate general required fields (excluding telephone and sex)
+        inputs.forEach((input) => {
+          if (
+            input.id !== "telephone" &&
+            input.id !== "sex" &&
+            !input.checkValidity()
+          ) {
+            isGeneralValid = false;
+            input.classList.add("invalid");
+          } else if (input.id !== "telephone" && input.id !== "sex") {
+            input.classList.remove("invalid");
+          }
+        });
+
+        // Validate the telephone field separately
+        const telephone = document.getElementById("telephone");
+        const telephoneValue = telephone.value;
+
+        if (telephoneValue.length !== 10 || !/^\d{10}$/.test(telephoneValue)) {
+          isTelephoneValid = false;
+          telephone.classList.add("invalid");
+          telephoneErrorMessage.classList.remove("hidden");
+        } else {
+          telephone.classList.remove("invalid");
+          telephoneErrorMessage.classList.add("hidden");
+        }
+
+        // Validate the sex field separately
+        const sex = document.getElementById("sex");
+        if (sex.value === "") {
+          isSexValid = false;
+          sex.classList.add("invalid");
+          sexErrorMessage.classList.remove("hidden");
+        } else {
+          sex.classList.remove("invalid");
+          sexErrorMessage.classList.add("hidden");
+        }
+
+        // Show or hide the general error message based on validation
+        if (!isGeneralValid || !isSexValid) {
+          errorMessageDiv.classList.remove("hidden");
+          generalErrorMessage.classList.remove("hidden");
+        } else {
+          generalErrorMessage.classList.add("hidden");
+        }
+
+        // Hide error message container if only telephone is invalid
+        if (isGeneralValid && isSexValid && !isTelephoneValid) {
+          errorMessageDiv.classList.remove("hidden");
+        } else if (isGeneralValid && isSexValid && isTelephoneValid) {
+          errorMessageDiv.classList.add("hidden");
+        }
+
+        return isGeneralValid && isTelephoneValid && isSexValid;
+      };
+
+      // Event listener for the "Next" button
+      nextButton.addEventListener("click", () => {
+        if (validateForm()) {
+          goToStep(2);
+        }
+      });
+
+      // Add real-time validation
+      form.addEventListener("input", () => {
+        validateForm();
+      });
+
+      // Keep invalid styling on blur for fields that remain invalid
+      form.addEventListener(
+        "blur",
+        (event) => {
+          const input = event.target;
+
+          if (!input.checkValidity()) {
+            input.classList.add("invalid");
+          }
+        },
+        true
+      );
+      let addresses = [];
+      function openModal(addressIndex = null) {
+        const modal = document.getElementById("addressModal");
+        const form = document.getElementById("addressForm");
+        const modalTitle = document.getElementById("modalTitle");
+
+        // Reset the form
+        form.reset();
+
+        // Show modal
+        modal.classList.remove("hidden");
+
+        // If editing, load the existing data into the form
+        if (addressIndex !== null) {
+          modalTitle.textContent = "Edit Home Address";
+          const address = addresses[addressIndex];
+          document.getElementById("country1").value = address.country;
+          document.getElementById("street1").value = address.street;
+          document.getElementById("apartment1").value = address.apartment;
+          document.getElementById("city1").value = address.city;
+          document.getElementById("province1").value = address.province;
+          document.getElementById("postal1").value = address.postalCode;
+          document.getElementById("streetNumber1").value = address.streetNumber;
+          document.getElementById("fromDate1").value = address.fromDate;
+          document.getElementById("toDate1").value = address.toDate;
+
+          // Update address when form is submitted
+          form.onsubmit = (e) => updateAddress(e, addressIndex);
+        } else {
+          modalTitle.textContent = "Add Home Address";
+          form.onsubmit = (e) => addAddress(e);
+        }
+      }
+
+      function closeModal() {
+        const modal = document.getElementById("addressModal");
+        modal.classList.add("hidden");
+      }
+
+      function openModal1() {
+        const modal = document.getElementById("addressModal1");
+        modal.classList.remove("hidden"); // Remove the "hidden" class to make it visible
+      }
+
+      function closeModal1() {
+        const modal = document.getElementById("addressModal1");
+        modal.classList.add("hidden"); // Add the "hidden" class to hide it
+      }
+
+      function openModal(addressIndex = null) {
+        const modal = document.getElementById("addressModal");
+        const form = document.getElementById("addressForm");
+        const modalTitle = document.getElementById("modalTitle");
+
+        // Reset the form
+        form.reset();
+
+        // Show modal
+        modal.classList.remove("hidden");
+
+        // If editing, load the existing data into the form
+        if (addressIndex !== null) {
+          modalTitle.textContent = "Edit Home Address";
+          const address = addresses[addressIndex];
+          document.getElementById("country1").value = address.country;
+          document.getElementById("street1").value = address.street;
+          document.getElementById("apartment1").value = address.apartment;
+          document.getElementById("city1").value = address.city;
+          document.getElementById("province1").value = address.province;
+          document.getElementById("postal1").value = address.postalCode;
+          document.getElementById("streetNumber1").value = address.streetNumber;
+          document.getElementById("fromDate1").value = address.fromDate;
+          document.getElementById("toDate1").value = address.toDate;
+
+          // Update address when form is submitted
+          form.onsubmit = (e) => updateAddress(e, addressIndex);
+        } else {
+          modalTitle.textContent = "Add Home Address";
+          form.onsubmit = (e) => addAddress(e);
+        }
+      }
+
+      function closeModal() {
+        const modal = document.getElementById("addressModal");
+        modal.classList.add("hidden");
+      }
+      function handleInput(selectElement) {
+      const otherInputDiv = document.getElementById('otherCountryInput');
+      const otherCountryInput = document.getElementById('otherCountry');
+
+      if (selectElement.value === 'other') {
+        // Show the "Other Country" input field
+        otherInputDiv.classList.add('hidden');
+      } else {
+        // Hide the input field and clear its value
+       
+        otherInputDiv.classList.remove('hidden');
+        otherCountryInput.value = '';
+      }
+    }
+
+
+
+      function addAddress(event) {
+        event.preventDefault();
+        const countrySelect = document.getElementById("country1");
+      const country = countrySelect.value === "other"
+        ? document.getElementById("otherCountry").value
+        : countrySelect.value;
+
+        const newAddress = {
+          country,
+          street: document.getElementById("street1").value,
+          apartment: document.getElementById("apartment1").value,
+          city: document.getElementById("city1").value,
+          province: document.getElementById("province1").value,
+          postalCode: document.getElementById("postal1").value,
+          streetNumber: document.getElementById("streetNumber1").value,
+          fromDate: document.getElementById("fromDate1").value,
+          toDate: document.getElementById("toDate1").value,
+        };
+
+        addresses.push(newAddress);
+        renderAddresses();
+        closeModal();
+      }
+
+      function updateAddress(event, index) {
+        event.preventDefault();
+        const countrySelect = document.getElementById("country1");
+      const country = countrySelect.value === "other"
+        ? document.getElementById("otherCountry").value
+        : countrySelect.value;
+
+        const updatedAddress = {
+          country,
+          street: document.getElementById("street1").value,
+          apartment: document.getElementById("apartment1").value,
+          city: document.getElementById("city1").value,
+          province: document.getElementById("province1").value,
+          postalCode: document.getElementById("postal1").value,
+          streetNumber: document.getElementById("streetNumber1").value,
+          fromDate: document.getElementById("fromDate1").value,
+          toDate: document.getElementById("toDate1").value,
+        };
+
+        addresses[index] = updatedAddress;
+        renderAddresses();
+        closeModal();
+      }
+
+      function deleteAddress(index) {
+        addresses.splice(index, 1);
+        renderAddresses();
+      }
+
+      function renderAddresses() {
+        const addressList = document.getElementById("addressList");
+        addressList.innerHTML = ""; // Clear the list before rendering
+
+        addresses.forEach((address, index) => {
+          const listItem = document.createElement("div");
+
+          listItem.innerHTML = `
+ <div class="my-4">
+    <!-- Add Now Button -->
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="
+    cursor: pointer;" onclick="deleteAddress(${index})" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+</svg>
+
+    
+     <a onclick="openModal(${index})" class="underline mb-2" style="color: blue;
+    cursor: pointer;"> <h4 class="font-medium">${address.country} ${address.street} ${address.apartment} ${address.city} ${address.province} ${address.postalCode} ${address.streetNumber}</h4></a>
+    </div>
+
+`;
+
+          addressList.appendChild(listItem);
+        });
+      }
+      function validateProvince(input) {
+        const validProvinces = [
+          "NL",
+          "PE",
+          "NS",
+          "NB",
+          "QC",
+          "ON",
+          "MB",
+          "SK",
+          "AB",
+          "BC",
+          "YT",
+          "NT",
+          "NU",
+        ];
+
+        const errorElement = document.getElementById("provinceError");
+
+        // Check if the input matches any of the valid provinces
+        if (!validProvinces.includes(input.value.toUpperCase())) {
+          input.setCustomValidity(
+            "Please enter one of: NL, PE, NS, NB, QC, ON, MB, SK, AB, BC, YT, NT, NU"
+          );
+          errorElement.classList.remove("hidden");
+        } else {
+          input.setCustomValidity(""); // Clear custom validity if valid
+          errorElement.classList.add("hidden");
+        }
+      }
+      function validateDates() {
+        const fromDateInput = document.getElementById("fromDate1");
+        const toDateInput = document.getElementById("toDate1");
+
+        const fromDate = new Date(fromDateInput.value);
+        const toDate = new Date(toDateInput.value);
+
+        const today = new Date();
+        const fiveYearsAgo = new Date();
+        fiveYearsAgo.setFullYear(today.getFullYear() - 5);
+
+        if (fromDate < fiveYearsAgo) {
+          fromDateInput.setCustomValidity(
+            "The 'From' date cannot be older than 5 years."
+          );
+        } else {
+          fromDateInput.setCustomValidity("");
+        }
+
+        if (toDate > today) {
+          toDateInput.setCustomValidity(
+            "The 'To' date cannot be in the future."
+          );
+        } else if (toDate < fromDate) {
+          toDateInput.setCustomValidity(
+            "The 'To' date cannot be earlier than the 'From' date."
+          );
+        } else {
+          toDateInput.setCustomValidity("");
+        }
+      }
+      // Toggle visibility of criminal history details based on selection
+      function toggleCriminalHistory(hasCriminalHistory) {
+        const criminalHistoryDetails = document.getElementById(
+          "criminal-history-details"
+        );
+        const criminalHistory = document.getElementById("criminal-history");
+        if (hasCriminalHistory) {
+          criminalHistoryDetails.classList.remove("hidden");
+          criminalHistory.classList.add("hidden");
+        } else {
+          criminalHistoryDetails.classList.add("hidden");
+          criminalHistory.classList.remove("hidden");
+        }
+      }
+
+      // Add a new row for criminal record entry
+      function addRow() {
+        const recordEntries = document.getElementById(
+          "criminal-record-entries"
+        );
+        const newRow = document.createElement("div");
+        newRow.classList.add("record-entry", "flex", "space-x-2");
+        newRow.innerHTML = `
+    <input type="text" placeholder="Offence" class="w-1/3 p-2 border rounded-lg" />
+    <input type="date" placeholder="Sentence Date" class="w-1/3 p-2 border rounded-lg" />
+    <input type="text" placeholder="Court Location" class="w-1/3 p-2 border rounded-lg" />
+    <button type="button" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600" onclick="removeRow(this)">
+      Delete
+    </button>
+  `;
+        recordEntries.appendChild(newRow);
+      }
+
+      // Remove a criminal record entry row
+      function removeRow(button) {
+        const row = button.closest(".record-entry");
+        row.remove();
+      }
+
+      // Validate form and proceed to the next step
+      function validateAndProceed1(event) {
+        event.preventDefault();
+
+        // Example validation (expand with your custom validation logic)
+        const selectedOption = document.querySelector(
+          'input[name="criminal-history"]:checked'
+        );
+
+        // Check if a radio button is selected
+        if (!selectedOption) {
+          alert("Please select your criminal history declaration.");
+          return false;
+        }
+
+        // If "No criminal history to declare" is selected, proceed to the next step
+        if (selectedOption.value === "no-criminal-history") {
+          goToStep(3); // Replace with your next step logic
+          return true;
+        }
+
+        // If "Declare Criminal History" is selected, check if details are provided
+        const criminalRecords = document.getElementById(
+          "criminal-record-entries"
+        ).children.length;
+        if (
+          selectedOption.value === "declare-criminal-history" &&
+          criminalRecords === 0
+        ) {
+          alert("Please add at least one criminal record entry.");
+          return false;
+        }
+
+        // Proceed to the next step if all validations pass
+        goToStep(3); // Replace with your next step logic
+        return true;
+      }
+
+      // Go to a specific step in the form (e.g., step 3)
+
+      // step-3
+      function validateAndProceed(event) {
+        event.preventDefault();
+        let isValid = true;
+
+        // Select all required inputs in Step 3
+        const requiredFields = document.querySelectorAll(
+          "#step-3-form [required]"
+        );
+
+        requiredFields.forEach((field) => {
+          const errorElement = document.getElementById(`${field.id}-error`);
+          if (!field.value.trim()) {
+            field.classList.add("border-red-500");
+            if (errorElement) errorElement.classList.remove("hidden");
+            isValid = false;
+          } else {
+            field.classList.remove("border-red-500");
+            if (errorElement) errorElement.classList.add("hidden");
+          }
+        });
+
+        if (isValid) {
+          // Proceed to the next step if all fields are valid
+          goToStep(4);
+        }
+      }
+
+      function toggleAccordion(index) {
+        const content = document.getElementById(`accordion-content-${index}`);
+        const icon = document.getElementById(`accordion-icon-${index}`);
+        if (content.classList.contains("hidden")) {
+          content.classList.remove("hidden");
+          icon.classList.add("rotate-180");
+        } else {
+          content.classList.add("hidden");
+          icon.classList.remove("rotate-180");
+        }
+      }
+
+      function handleInput(input) {
+        // Remove error message and red border on input change
+        const errorElement = document.getElementById(`${input.id}-error`);
+        if (input.value.trim()) {
+          input.classList.remove("border-red-500");
+          if (errorElement) errorElement.classList.add("hidden");
+        }
+      }
+      // Open the modal
+      function openmyModal() {
+        document.getElementById("myModal").classList.remove("hidden");
+      }
+
+      // Close the modal
+      function closemyModal() {
+        document.getElementById("myModal").classList.add("hidden");
+      }
+
+      // Initialize signature canvas
+     // Initialize canvas and context
+     const canvas = document.getElementById("signatureCanvas");
+      const ctx = canvas.getContext("2d");
+      let isDrawing = false;
+      let lastX = 0;
+      let lastY = 0;
+
+      // Helper function to handle mouse and touch start
+      function startDrawing(e) {
+        isDrawing = true;
+        const { x, y } = getCoordinates(e);
+        lastX = x;
+        lastY = y;
+      }
+
+      // Helper function to handle mouse and touch move
+      function draw(e) {
+        if (!isDrawing) return;
+
+        const { x, y } = getCoordinates(e);
+        ctx.lineWidth = 2;
+        ctx.lineCap = "round";
+        ctx.strokeStyle = "black";
+
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+
+        lastX = x;
+        lastY = y;
+      }
+
+      // Helper function to handle mouse and touch end
+      function stopDrawing() {
+        isDrawing = false;
+        ctx.beginPath();
+      }
+
+      // Function to get coordinates based on event type (mouse or touch)
+      function getCoordinates(e) {
+        let x, y;
+        if (e.touches) {
+          // For touch events
+          x = e.touches[0].clientX - canvas.offsetLeft;
+          y = e.touches[0].clientY - canvas.offsetTop;
+        } else {
+          // For mouse events
+          x = e.clientX - canvas.offsetLeft;
+          y = e.clientY - canvas.offsetTop;
+        }
+        return { x, y };
+      }
+
+      // Attach event listeners for mouse and touch events
+      canvas.addEventListener("mousedown", startDrawing);
+      canvas.addEventListener("mousemove", draw);
+      canvas.addEventListener("mouseup", stopDrawing);
+      canvas.addEventListener("mouseout", stopDrawing);
+
+      canvas.addEventListener("touchstart", startDrawing);
+      canvas.addEventListener("touchmove", draw);
+      canvas.addEventListener("touchend", stopDrawing);
+      canvas.addEventListener("touchcancel", stopDrawing);
+
+      // Clear the canvas
+      function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      // Save and show preview
+      function saveSignature() {
+        const previewCanvas = document.getElementById("signaturePreview");
+        const previewCtx = previewCanvas.getContext("2d");
+        const imageData = canvas.toDataURL();
+        previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+        const img = new Image();
+        img.src = imageData;
+        img.onload = function () {
+          previewCtx.drawImage(img, 0, 0);
+        };
+        closeMyModal();
+      }
+      function closeMyModal() {
+    document.getElementById("myModal").style.display = "none";
+  }
+      // Form validation before proceeding
+      function validateAndProceed4(event) {
+        event.preventDefault();
+        const middleName = document.getElementById("middleName").value;
+        const agreedby = document.getElementById("agreedby").value;
+        const agreedat = document.getElementById("agreedat").value;
+
+        if (!middleName || !agreedby || !agreedat) {
+          alert("Please fill in all the required fields.");
+          return false;
+        }
+
+        // Additional form validation logic can be added here
+
+        // Proceed to the next step if validation is successful
+        goToStep(5);
+        return true;
+      }
+    </script>
+  </body>
+</html>
