@@ -11,7 +11,7 @@
         border-color: red !important;
       }
       .step-active {
-        background: linear-gradient(to right, #4ade80, #3b82f6);
+        background: linear-gradient(to right, #ec141c, #ec141c);
         color: white;
       }
       .step-inactive {
@@ -19,7 +19,7 @@
         color: #6b7280;
       }
       .line-active {
-        background: linear-gradient(to right, #4ade80, #3b82f6);
+        background: linear-gradient(to right, #ec141c, #ec141c);
       }
       .border-red-500 {
         border-color: #f56565 !important;
@@ -55,7 +55,10 @@
         align-items: center;
         margin-bottom: 10px;
       }
+      
     </style>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   </head>
   <body>
     <div class="max-w-6xl mx-auto py-5 px-5">
@@ -245,8 +248,7 @@
               </label>
               <input
                 type="text"
-                id="placeofbirth
-                "
+                id="placeofbirth"
                 placeholder="Place of birth
                 "
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
@@ -263,7 +265,8 @@
               <input
                 type="date"
                 id="dob"
-                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                placeholder="yyyy-mm-dd"
+                class="datepicker w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 required
               />
             </div>
@@ -273,7 +276,7 @@
                 id="sex"
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               >
-                <option value="" disabled selected>Select your sex</option>
+                <option value="" disabled selected>Please make a selection</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Not specified</option>
@@ -304,8 +307,7 @@
               </label>
               <input
                 type="text"
-                id="emailaddress
-                "
+                id="emailaddress"
                 placeholder="Email Address
                 "
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
@@ -355,7 +357,7 @@
             <button
               type="button"
               id="nextButton"
-              class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+              class="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600"
             >
               Next
             </button>
@@ -483,7 +485,7 @@
             </button>
             <button
               type="submit"
-              class="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600"
+              class="bg-red-500 text-white py-2 px-6 rounded hover:bg-red-600"
             >
               Next
             </button>
@@ -800,7 +802,7 @@
                     id="sector"
                     class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   >
-                    <option value="">Select a Country</option>
+                    <!-- <option value="">Select a Country</option> -->
                     <option value="Canada">Canada</option>
                     <option value="Bangladesh">United States</option>
                     <option value="other">Other (specify)</option>
@@ -915,7 +917,7 @@
             </button>
             <button
               type="submit"
-              class="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600"
+              class="bg-red-500 text-white py-2 px-6 rounded hover:bg-red-600"
             >
               Next
             </button>
@@ -1001,7 +1003,7 @@
             </button>
             <button
               type="submit"
-              class="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600"
+              class="bg-red-500 text-white py-2 px-6 rounded hover:bg-red-600"
             >
               Next
             </button>
@@ -1081,7 +1083,7 @@
                 id="country1"
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               >
-                <option value="">Select a Country</option>
+                <!-- <option value="">Select a Country</option> -->
                 <option value="Canada">Canada</option>
                 <option value="United States">United States</option>
                 <option value="other">Other (specify)</option>
@@ -1111,7 +1113,19 @@
               }
             });
           </script>
-          
+           <div class="mb-4 space-y-2">
+            <label for="streetNumber1" class="block text-sm font-medium"
+              >Street Number:</label
+            >
+            <input
+              required
+              type="text"
+              id="streetNumber1"
+              placeholder="Street Number"
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
           <div class="mb-4 space-y-2 " >
             <!-- <label for="streetNumber1" class="block text-sm font-medium">Street Number:</label> -->
             <label for="street1" class="block text-sm font-medium"
@@ -1189,38 +1203,28 @@
             </div>
           </div>
 
-          <div class="mb-4 space-y-2">
-            <label for="streetNumber1" class="block text-sm font-medium"
-              >Street Number:</label
-            >
-            <input
-              required
-              type="text"
-              id="streetNumber1"
-              placeholder="Street Number"
-              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
+         
           <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
             <div class="sm:w-1/2 space-y-2">
-              <label for="fromDate1" class="block text-sm font-medium"
+              <label for="fromDate1" class="datepicker block text-sm font-medium"
                 >From:</label
               >
               <input
                 required
                 type="date"
                 id="fromDate1"
+                placeholder="yyyy-mm-dd"
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 onchange="validateDates()"
               />
             </div>
             <div class="sm:w-1/2 space-y-2">
-              <label for="toDate1" class="block text-sm font-medium">To:</label>
+              <label for="toDate1" class="datepicker block text-sm font-medium">To:</label>
               <input
                 required
                 type="date"
                 id="toDate1"
+                placeholder="yyyy-mm-dd"
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 onchange="validateDates()"
               />
@@ -1328,22 +1332,29 @@
         "telephone-error-message"
       );
       const sexErrorMessage = document.getElementById("sex-error-message");
-
+      flatpickr("#dob", {
+    dateFormat: "Y/m/d", // yyyy/mm/dd format
+  });
+      flatpickr("#fromDate1", {
+    dateFormat: "Y/m/d", // yyyy/mm/dd format
+  });
+      flatpickr("#toDate1", {
+    dateFormat: "Y/m/d", // yyyy/mm/dd format
+  });
       // Function to validate the entire form
       const validateForm = () => {
         const inputs = document.querySelectorAll(
           "#form input[required], #form select[required]"
         );
-
         let isGeneralValid = true;
         let isTelephoneValid = true;
         let isSexValid = true;
-
+        
         // Validate general required fields (excluding telephone and sex)
         inputs.forEach((input) => {
           if (
             input.id !== "telephone" &&
-            input.id !== "sex" &&
+            input.id !== "sex" && 
             !input.checkValidity()
           ) {
             isGeneralValid = false;
@@ -1384,7 +1395,15 @@
         } else {
           generalErrorMessage.classList.add("hidden");
         }
-
+        const dob = document.getElementById("dob");
+    if (!dob.value) {
+      isDobValid = false;
+      dob.classList.add("invalid");
+     
+    } else {
+      dob.classList.remove("invalid");
+     
+    }
         // Hide error message container if only telephone is invalid
         if (isGeneralValid && isSexValid && !isTelephoneValid) {
           errorMessageDiv.classList.remove("hidden");
@@ -1395,10 +1414,29 @@
         return isGeneralValid && isTelephoneValid && isSexValid;
       };
 
+      
+
       // Event listener for the "Next" button
       nextButton.addEventListener("click", () => {
         if (validateForm()) {
-          goToStep(2);
+          const formData = {};
+          console.log(formData)
+          const inputs = document.querySelectorAll("#form input, #form select");
+          inputs.forEach((input) => {
+            formData[input.id.trim()] = input.value.trim();
+    });
+    localStorage.setItem("formData", JSON.stringify(formData));
+
+    // Save the updated data to localStorage
+
+// Update the navigation dynamically
+const navName = document.querySelector("nav h4");
+const navDob = document.querySelector("nav p");
+
+navName.textContent = `${formData.surname}, ${formData.firstName}`;
+navDob.textContent = formData.dob;
+
+           goToStep(2);
         }
       });
 
@@ -1419,6 +1457,50 @@
         },
         true
       );
+      // Function to load data from localStorage into the form
+
+  const savedData = JSON.parse(localStorage.getItem("formData"));
+console.log(savedData)
+  if (savedData) {
+    Object.entries(savedData).forEach(([key, value]) => {
+      const field = document.getElementById(key);
+      if (field) {
+        field.value = value;
+      }
+    });
+  }
+
+
+// Call this function whenever step 1 is loaded
+document.addEventListener("DOMContentLoaded", () => {
+  // Check if we're on step 1 and load data
+  const currentStep = document.querySelector(".step.active"); // Assume "active" class indicates the visible step
+  if (currentStep && currentStep.id === "step-1") {
+    
+  }
+  const savedData = JSON.parse(localStorage.getItem("formData"));
+
+  if (savedData) {
+    // Populate form fields
+    Object.entries(savedData).forEach(([key, value]) => {
+      const field = document.getElementById(key);
+      if (field) {
+        field.value = value;
+      }
+    });
+
+    // Update navigation
+    const navName = document.querySelector("nav h4");
+    const navDob = document.querySelector("nav p");
+
+    if (savedData.surname && savedData.firstName) {
+      navName.textContent = `${savedData.surname}, ${savedData.firstName}`;
+    }
+    if (savedData.dob) {
+      navDob.textContent = savedData.dob;
+    }
+  }
+});
       let addresses = [];
       function openModal(addressIndex = null) {
         const modal = document.getElementById("addressModal");
@@ -1433,7 +1515,7 @@
 
         // If editing, load the existing data into the form
         if (addressIndex !== null) {
-          modalTitle.textContent = "Edit Home Address";
+          modalTitle.textContent = "Edit Residential Address";
           const address = addresses[addressIndex];
           document.getElementById("country1").value = address.country;
           document.getElementById("street1").value = address.street;
@@ -1481,7 +1563,7 @@
 
         // If editing, load the existing data into the form
         if (addressIndex !== null) {
-          modalTitle.textContent = "Edit Home Address";
+          modalTitle.textContent = "Edit Residential  Address";
           const address = addresses[addressIndex];
           document.getElementById("country1").value = address.country;
           document.getElementById("street1").value = address.street;
@@ -1595,7 +1677,7 @@
 
     
      <a onclick="openModal(${index})" class="underline mb-2" style="color: blue;
-    cursor: pointer;"> <h4 class="font-medium">${address.country} ${address.street} ${address.apartment} ${address.city} ${address.province} ${address.postalCode} ${address.streetNumber}</h4></a>
+    cursor: pointer;"> <h4 class="font-medium">${address.fromDate} - ${address.toDate}, #Apartmen${address.streetNumber} , ${address.street} , ${address.city} , ${address.province} </h4></a>
     </div>
 
 `;
@@ -1906,6 +1988,36 @@
         goToStep(5);
         return true;
       }
+
+  const provinceLabel = document.querySelector("label[for='province1']");
+  const postalLabel = document.querySelector("label[for='postal1']");
+  const provinceInput = document.getElementById("province1");
+  const postalInput = document.getElementById("postal1");
+  countrySelect.addEventListener("change", function () {
+    const selectedCountry = this.value;
+
+    if (selectedCountry === "United States") {
+      provinceLabel.textContent = "State:";
+      postalLabel.textContent = "Zip Code:";
+      provinceInput.placeholder = "State";
+      postalInput.placeholder = "Zip Code";
+      otherCountryInput.classList.add("hidden");
+    } else if (selectedCountry === "Canada") {
+      provinceLabel.textContent = "Province:";
+      postalLabel.textContent = "Postal Code:";
+      provinceInput.placeholder = "Province";
+      postalInput.placeholder = "Postal Code";
+      otherCountryInput.classList.add("hidden");
+    } else if (selectedCountry === "other") {
+      otherCountryInput.classList.remove("hidden");
+      provinceLabel.textContent = "State/Province:";
+      postalLabel.textContent = "Postal Code:";
+      provinceInput.placeholder = "State/Province";
+      postalInput.placeholder = "Postal Code";
+    } else {
+      otherCountryInput.classList.add("hidden");
+    }
+  });
     </script>
   </body>
 </html>
