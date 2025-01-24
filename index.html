@@ -447,7 +447,8 @@
                 <input
                  
                   type="date"
-                  placeholder="Sentence Date"
+                  id="DeclareDate"
+                  placeholder="yyyy-mm-dd"
                   class="w-1/3 p-2 border rounded-lg"
                 />
                 <input
@@ -700,24 +701,24 @@
 
               <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
                 <div class="sm:w-1/2 space-y-2">
-                  <label for="from" class="block text-sm font-medium"
+                  <label for="fromDate2" class="block text-sm font-medium"
                     >From:</label
                   >
                   <input
                     required
                     type="date"
-                    id="from"
-                    placeholder=""
+                    id="fromDate2"
+                    placeholder="yyyy-mm-dd"
                     class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div class="sm:w-1/2 space-y-2">
-                  <label for="to" class="block text-sm font-medium">To:</label>
+                  <label for="toDate2" class="block text-sm font-medium">To:</label>
                   <input
                     required
                     type="date"
-                    id="to"
-                    placeholder=""
+                    id="toDate2"
+                    placeholder="yyyy-mm-dd"
                     class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
@@ -882,24 +883,24 @@
 
               <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
                 <div class="sm:w-1/2 space-y-2">
-                  <label for="name" class="block text-sm font-medium"
+                  <label for="fromDate3" class="block text-sm font-medium"
                     >From:</label
                   >
                   <input
                     type="date"
-                    id="name"
-                    placeholder=""
+                    id="fromDate3"
+                    placeholder="yyyy-mm-dd"
                     class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div class="sm:w-1/2 space-y-2">
-                  <label for="email" class="block text-sm font-medium"
+                  <label for="toDate3" class="block text-sm font-medium"
                     >To:</label
                   >
                   <input
                     type="date"
-                    id="email"
-                    placeholder=""
+                    id="toDate3"
+                    placeholder="yyyy-mm-dd"
                     class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
@@ -1339,6 +1340,21 @@
     dateFormat: "Y/m/d", // yyyy/mm/dd format
   });
       flatpickr("#toDate1", {
+    dateFormat: "Y/m/d", // yyyy/mm/dd format
+  });
+      flatpickr("#fromDate2", {
+    dateFormat: "Y/m/d", // yyyy/mm/dd format
+  });
+      flatpickr("#toDate2", {
+    dateFormat: "Y/m/d", // yyyy/mm/dd format
+  });
+      flatpickr("#fromDate3", {
+    dateFormat: "Y/m/d", // yyyy/mm/dd format
+  });
+      flatpickr("#toDate3", {
+    dateFormat: "Y/m/d", // yyyy/mm/dd format
+  });
+      flatpickr("#DeclareDate", {
     dateFormat: "Y/m/d", // yyyy/mm/dd format
   });
       // Function to validate the entire form
