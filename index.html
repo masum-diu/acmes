@@ -2,7 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <link
+      href="https://api.mapbox.com/mapbox-assembly/v1.3.0/assembly.min.css"
+    />
+    <script
+    id="search-js"
+    defer=""
+    src="https://api.mapbox.com/search-js/v1.0.0-beta.25/web.js"
+  ></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Acme</title>
     <style>
@@ -57,6 +64,7 @@
       }
       
     </style>
+    
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   </head>
@@ -1115,6 +1123,16 @@
             });
           </script>
            <div class="mb-4 space-y-2">
+            <mapbox-address-autofill>
+              <input
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                name="address"
+                autocomplete="shipping address-line2"
+                placeholder=" Autocomplete Address"
+              />
+            </mapbox-address-autofill>
+          </div>
+           <div class="mb-4 space-y-2">
             <label for="streetNumber1" class="block text-sm font-medium"
               >Street Number:</label
             >
@@ -1123,6 +1141,7 @@
               type="text"
               id="streetNumber1"
               placeholder="Street Number"
+              
               class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -1154,6 +1173,7 @@
                 required
                 type="text"
                 id="apartment1"
+                autocomplete="shipping address-line1"
                 placeholder="Apartment"
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               />
@@ -1164,6 +1184,7 @@
                 required
                 type="text"
                 id="city1"
+                autocomplete="shipping address-level2"
                 placeholder="City"
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               />
@@ -1179,6 +1200,7 @@
                 required
                 type="text"
                 id="province1"
+                autocomplete="shipping address-level1"
                 placeholder="Province"
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 pattern="^(NL|PE|NS|NB|QC|ON|MB|SK|AB|BC|YT|NT|NU)$"
@@ -1194,6 +1216,7 @@
               <input
                 type="text"
                 id="postal1"
+                autocomplete="shipping postal-code"
                 placeholder="Postal Code"
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 required
@@ -1517,6 +1540,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
+
+const ACCESS_TOKEN =
+        "pk.eyJ1IjoibW9iaW56YW1hbiIsImEiOiJjbTY5NWJoeGUwNm1jMm1zaGhrem82bzJiIn0.bIOBkMx34MuBQQK37nZ6hw";
+      window.addEventListener("load", () => {
+        const elements = document.querySelectorAll("mapbox-address-autofill");
+        for (const autofill of elements) {
+          autofill.accessToken = ACCESS_TOKEN;
+        }
+      });
       let addresses = [];
       function openModal(addressIndex = null) {
         const modal = document.getElementById("addressModal");
