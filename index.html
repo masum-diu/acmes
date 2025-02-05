@@ -1111,21 +1111,10 @@
             </div>
           </div>
           
-          <script>
-            const countrySelect = document.getElementById("country1");
-            const otherCountryInput = document.getElementById("otherCountryInput");
-          
-            countrySelect.addEventListener("change", function () {
-              if (this.value === "other") {
-                otherCountryInput.classList.remove("hidden");
-              } else {
-                otherCountryInput.classList.add("hidden");
-              }
-            });
-          </script>
-           <div class="mb-4 space-y-2">
-            <mapbox-search-box
         
+           <div class="mb-4 space-y-2" id="mapboxSearchContainer">
+            <mapbox-search-box
+            id="mapboxSearch"
         access-token="pk.eyJ1IjoibW9iaW56YW1hbiIsImEiOiJjbTY5NWJoeGUwNm1jMm1zaGhrem82bzJiIn0.bIOBkMx34MuBQQK37nZ6hw"
         proximity="0,0"
         placeholder=" Search Address"
@@ -1140,6 +1129,11 @@
               />
             </mapbox-address-autofill> -->
           </div>
+          <div class="text-right"> <button type="button" id="toggleManualInput" class="text-blue-500 underline hidden">
+            Manually Enter Address
+          </button></div>
+         
+          <div id="manualAddressFields" class="hidden">
            <div class="mb-4 space-y-2">
             <label for="streetNumber1" class="block text-sm font-medium"
               >Street Number:</label
@@ -1178,7 +1172,7 @@
                 >Apartment:</label
               >
               <input
-                required
+          
                 type="text"
                 id="apartment1"
                 autocomplete="shipping address-line1"
@@ -1211,9 +1205,7 @@
                 autocomplete="shipping address-level1"
                 placeholder="Province"
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                pattern="^(NL|PE|NS|NB|QC|ON|MB|SK|AB|BC|YT|NT|NU)$"
-                oninvalid="this.setCustomValidity('Please enter one of: NL, PE, NS, NB, QC, ON, MB, SK, AB, BC, YT, NT, NU')"
-                oninput="this.setCustomValidity('')"
+                
               />
             </div>
 
@@ -1228,9 +1220,7 @@
                 placeholder="Postal Code"
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 required
-                pattern="[A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9]"
-                oninvalid="this.setCustomValidity('Please enter a postal code in the format A1A1A1')"
-                oninput="this.setCustomValidity('')"
+               
               />
             </div>
           </div>
@@ -1262,7 +1252,7 @@
               />
             </div>
           </div>
-
+        </div>
           <!-- Submit & Cancel Buttons -->
           <div class="mt-4 flex justify-end space-x-2">
             <button
@@ -2153,5 +2143,68 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
     </script>
+      <script>
+      const countrySelect = document.getElementById("country1");
+const otherCountryInput = document.getElementById("otherCountryInput");
+const toggleButton = document.getElementById("toggleManualInput");
+const manualFields = document.getElementById("manualAddressFields");
+const mapboxSearchContainer = document.getElementById("mapboxSearchContainer");
+const mapboxSearch = document.getElementById("mapboxSearch");
+const saveButton = document.getElementById("saveButton");
+const cancelButton = document.getElementById("cancelButton");
+const searchBox = document.getElementById("searchBox"); // সঠিকভাবে searchBox ডিফাইন করুন
+
+// Country selection event
+countrySelect.addEventListener("change", function () {
+  if (this.value === "other") {
+    otherCountryInput.classList.remove("hidden");
+  } else {
+    otherCountryInput.classList.add("hidden");
+  }
+});
+
+let isManual = false;
+
+// Show the toggle button when the page loads
+toggleButton.classList.remove("hidden");
+
+toggleButton.addEventListener("click", function () {
+  isManual = !isManual; // Toggle manual mode
+
+  manualFields.classList.toggle("hidden");
+  mapboxSearchContainer.classList.toggle("hidden"); // Corrected to mapboxSearchContainer
+
+  toggleButton.textContent = isManual ? "Use Search Address" : "Manually Enter Address"; // Toggle text based on mode
+  saveButton.textContent = "Save"; // Always show 'Save' text
+});
+
+// Auto switch to search when typing in the Mapbox search box & change Save button to Submit
+mapboxSearch.addEventListener("keyup", function () {
+  isManual = false;
+  manualFields.classList.add("hidden");
+  mapboxSearchContainer.classList.remove("hidden"); // Corrected to mapboxSearchContainer
+  toggleButton.textContent = "Manually Enter Address";
+  saveButton.textContent = "Submit";
+});
+
+// When Submit button is clicked, switch back to manual input but DO NOT close modal
+saveButton.addEventListener("click", function (event) {
+  event.preventDefault(); // Prevent closing the modal
+
+  if (saveButton.textContent === "Submit") {
+    isManual = true;
+    manualFields.classList.remove("hidden");
+    mapboxSearchContainer.classList.add("hidden"); // Corrected
+    toggleButton.textContent = "Use Search Address"; // Change button text back
+    saveButton.textContent = "Save";
+  }
+});
+
+// Close modal when cancel button is clicked
+cancelButton.addEventListener("click", function () {
+  document.getElementById("modal").classList.add("hidden");
+});
+
+      </script>
   </body>
 </html>
