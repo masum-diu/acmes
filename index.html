@@ -1820,7 +1820,6 @@ document.addEventListener("DOMContentLoaded", () => {
           errorElement.classList.add("hidden");
         }
       }
-      // Function to validate the dates
       document.addEventListener("DOMContentLoaded", function () {
   // Initialize the date pickers using flatpickr
   const fromDateInput = flatpickr("#fromDate1", {
@@ -1846,14 +1845,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // Set the 'fiveYearsAgo' date to 5 years ago from today
     const fiveYearsAgo = new Date();
     fiveYearsAgo.setFullYear(today.getFullYear() - 5);
-console.log(fiveYearsAgo)
+    console.log(fiveYearsAgo);
+
     // Validate only when both "From" and "To" dates are selected
     if (fromDateInput.selectedDates.length > 0 && toDateInput.selectedDates.length > 0) {
 
       // Validate 'From' date: it must be at least 5 years ago from today (not in the future)
       if (fromDate < fiveYearsAgo) {
         fromDateInput.input.setCustomValidity("The 'From' date must be within the last 5 years.");
-      }  else {
+      } else {
         fromDateInput.input.setCustomValidity("");
       }
 
@@ -1876,10 +1876,46 @@ console.log(fiveYearsAgo)
     }
   }
 
-  // Save button event listener
- 
+  // Function to reset the form
+  function resetForm() {
+    // Reset the form
+    document.getElementById("addressForm").reset();
 
-  // Function to close the modal (if you have one)
+    // Reset flatpickr date inputs
+    if (fromDateInput) fromDateInput.clear();
+    if (toDateInput) toDateInput.clear();
+
+    // Disable the Save button
+    saveButton.disabled = true;
+  }
+
+  // Event listener for the "Add Address" button
+  const addButton = document.getElementById("addbutton");
+  if (addButton) {
+    addButton.addEventListener("click", function () {
+      // Reset the form when the "Add Address" button is clicked
+      resetForm();
+
+      // Show the modal and hide other elements
+      document.getElementById("addressModal").classList.remove("hidden");
+      document.getElementById("manualAddressFields").classList.add("hidden");
+      document.getElementById("mapboxSearchContainer").classList.remove("hidden");
+      document.getElementById("toggleButton").classList.remove("hidden");
+      saveButton.classList.add("hidden");
+    });
+  }
+
+  // Event listener for the "Cancel" button (to reset the form as well)
+  const cancelButton = document.getElementById("cancelButton");
+  if (cancelButton) {
+    cancelButton.addEventListener("click", function () {
+      // Reset the form when the "Cancel" button is clicked
+      resetForm();
+
+      // Close the modal
+      document.getElementById("addressModal").classList.add("hidden");
+    });
+  }
 
 });
 
@@ -2218,13 +2254,29 @@ cancelButton.addEventListener("click", function () {
   toggleButton.classList.remove("hidden");
   saveButton.classList.add("hidden");
 });
-addbutton.addEventListener("click", function () {
+
+const addButton = document.getElementById("addbutton");
+
+addButton.addEventListener("click", function () {
   document.getElementById("addressModal").classList.remove("hidden");
   document.getElementById("manualAddressFields").classList.add("hidden");
-  mapboxSearchContainer.classList.remove("hidden");
-  toggleButton.classList.remove("hidden");
-  saveButton.classList.add("hidden");
+  document.getElementById("mapboxSearchContainer").classList.remove("hidden");
+  document.getElementById("toggleManualInput").classList.remove("hidden");
+  document.getElementById("saveButton").classList.add("hidden");
+
+  setTimeout(function () {
+    // Form Reset
+    const addressForm = document.getElementById("addressForm");
+    if (addressForm) {
+      addressForm.reset();
+      console.log("Form reset successfully!"); // Debugging
+    } else {
+      console.error("Form not found!");
+    }
+  }, 500);
 });
+
+
 
 
 // let isManual = false;
