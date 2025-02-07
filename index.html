@@ -14,6 +14,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Acme</title>
     <style>
+       #saveButton:disabled {
+    background-color: #d1d5db; /* Light gray background color */
+    color: #6b7280; /* Gray text color */
+    cursor: not-allowed; /* Change cursor to indicate the button is disabled */
+  }
       /* Custom styling for invalid inputs */
       .invalid {
         border-color: red !important;
@@ -63,7 +68,11 @@
         align-items: center;
         margin-bottom: 10px;
       }
-      
+      .error-text {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+      }
     </style>
     
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -326,6 +335,7 @@
           </div>
           <div class="my-2 flex-row items-center space-x-2 justify-center">
             <a
+            id="addbutton"
               class="text-green-600 rounded-md border border-green-600 font-medium py-1 px-1 hover:bg-green-600 hover:text-white transition inline-flex items-center cursor-pointer"
               onclick="openModal()"
             >
@@ -1237,7 +1247,7 @@
                 id="fromDate1"
                 placeholder="yyyy-mm"
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                onchange="validateDates()"
+                
               />
             </div>
             <div class="sm:w-1/2 space-y-2">
@@ -1248,7 +1258,7 @@
                 id="toDate1"
                 placeholder="yyyy-mm"
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                onchange="validateDates()"
+               
               />
             </div>
           </div>
@@ -1258,13 +1268,15 @@
             <button
               type="button"
               class="text-gray-600 bg-gray-200 px-4 py-2 rounded-md"
-              onclick="closeModal()"
+             id="cancelButton"
             >
               Cancel
             </button>
             <button
+            id="saveButton"
               type="submit"
-              class="text-white bg-blue-500 px-4 py-2 rounded-md"
+              disabled
+              class="text-white bg-blue-500 px-4 py-2 rounded-md hidden"
             >
               Save
             </button>
@@ -1358,12 +1370,12 @@
     dateFormat: "Y-m-d", 
     defaultDate: "2007-01-01" 
   });
-      flatpickr("#fromDate1", {
-    dateFormat: "Y-m", // yyyy/mm/dd format
-  });
-      flatpickr("#toDate1", {
-    dateFormat: "Y-m", // yyyy/mm/dd format
-  });
+  //     flatpickr("#fromDate1", {
+  //   dateFormat: "Y-m", // yyyy/mm/dd format
+  // });
+  //     flatpickr("#toDate1", {
+  //   dateFormat: "Y-m", // yyyy/mm/dd format
+  // });
       flatpickr("#fromDate2", {
     dateFormat: "Y-m-d", // yyyy/mm/dd format
   });
@@ -1674,38 +1686,7 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.classList.add("hidden"); // Add the "hidden" class to hide it
       }
 
-      function openModal(addressIndex = null) {
-        const modal = document.getElementById("addressModal");
-        const form = document.getElementById("addressForm");
-        const modalTitle = document.getElementById("modalTitle");
-
-        // Reset the form
-        form.reset();
-
-        // Show modal
-        modal.classList.remove("hidden");
-
-        // If editing, load the existing data into the form
-        if (addressIndex !== null) {
-          modalTitle.textContent = "Edit Residential  Address";
-          const address = addresses[addressIndex];
-          document.getElementById("country1").value = address.country;
-          document.getElementById("street1").value = address.street;
-          document.getElementById("apartment1").value = address.apartment;
-          document.getElementById("city1").value = address.city;
-          document.getElementById("province1").value = address.province;
-          document.getElementById("postal1").value = address.postalCode;
-          document.getElementById("streetNumber1").value = address.streetNumber;
-          document.getElementById("fromDate1").value = address.fromDate;
-          document.getElementById("toDate1").value = address.toDate;
-
-          // Update address when form is submitted
-          form.onsubmit = (e) => updateAddress(e, addressIndex);
-        } else {
-          modalTitle.textContent = "Add Home Address";
-          form.onsubmit = (e) => addAddress(e);
-        }
-      }
+      
 
       function closeModal() {
         const modal = document.getElementById("addressModal");
@@ -1801,7 +1782,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     
      <a onclick="openModal(${index})" class="underline mb-2" style="color: blue;
-    cursor: pointer;"> <h4 class="font-medium">${address.fromDate} - ${address.toDate} : #Apartmen${address.streetNumber} , ${address.street} , ${address.city} , ${address.province} </h4></a>
+    cursor: pointer;"> <h4 class="font-medium">${address.fromDate} - ${address.toDate} : #Apartment${address.streetNumber} , ${address.street} , ${address.city} , ${address.province} </h4></a>
     </div>
 
 `;
@@ -1839,37 +1820,86 @@ document.addEventListener("DOMContentLoaded", () => {
           errorElement.classList.add("hidden");
         }
       }
-      function validateDates() {
-        const fromDateInput = document.getElementById("fromDate1");
-        const toDateInput = document.getElementById("toDate1");
+      // Function to validate the dates
+      document.addEventListener("DOMContentLoaded", function () {
+  // Initialize the date pickers using flatpickr
+  const fromDateInput = flatpickr("#fromDate1", {
+    dateFormat: "Y-m",
+    onChange: validateDates, // Trigger validation whenever date is changed
+  });
 
-        const fromDate = new Date(fromDateInput.value);
-        const toDate = new Date(toDateInput.value);
+  const toDateInput = flatpickr("#toDate1", {
+    dateFormat: "Y-m",
+    onChange: validateDates, // Trigger validation whenever date is changed
+  });
 
-        const today = new Date();
-        const fiveYearsAgo = new Date();
-        fiveYearsAgo.setFullYear(today.getFullYear() - 5);
+  const saveButton = document.getElementById("saveButton");
 
-        if (fromDate < fiveYearsAgo) {
-          fromDateInput.setCustomValidity(
-            "The 'From' date cannot be older than 5 years."
-          );
-        } else {
-          fromDateInput.setCustomValidity("");
-        }
+  // Initially, disable the Save button
+  saveButton.disabled = true;
 
-        if (toDate > today) {
-          toDateInput.setCustomValidity(
-            "The 'To' date cannot be in the future."
-          );
-        } else if (toDate < fromDate) {
-          toDateInput.setCustomValidity(
-            "The 'To' date cannot be earlier than the 'From' date."
-          );
-        } else {
-          toDateInput.setCustomValidity("");
-        }
+  function validateDates() {
+    const fromDate = new Date(fromDateInput.selectedDates[0]);
+    const toDate = new Date(toDateInput.selectedDates[0]);
+    const today = new Date();
+
+    // Set the 'fiveYearsAgo' date to 5 years ago from today
+    const fiveYearsAgo = new Date();
+    fiveYearsAgo.setFullYear(today.getFullYear() - 5);
+console.log(fiveYearsAgo)
+    // Validate only when both "From" and "To" dates are selected
+    if (fromDateInput.selectedDates.length > 0 && toDateInput.selectedDates.length > 0) {
+
+      // Validate 'From' date: it must be at least 5 years ago from today (not in the future)
+      if (fromDate < fiveYearsAgo) {
+        fromDateInput.input.setCustomValidity("The 'From' date must be within the last 5 years.");
+      }  else {
+        fromDateInput.input.setCustomValidity("");
       }
+
+      // Validate 'To' date: it must be within 5 years from today, and not in the future
+      if (toDate < fiveYearsAgo) {
+        toDateInput.input.setCustomValidity("The 'To' date must be within the last 5 years.");
+      } else {
+        toDateInput.input.setCustomValidity("");
+      }
+
+      // Enable Save button if both dates are valid
+      if (fromDateInput.input.checkValidity() && toDateInput.input.checkValidity()) {
+        saveButton.disabled = false;
+      } else {
+        saveButton.disabled = true;
+      }
+    } else {
+      // If both dates are not selected, keep the Save button disabled
+      saveButton.disabled = true;
+    }
+  }
+
+  // Save button event listener
+ 
+
+  // Function to close the modal (if you have one)
+
+});
+
+
+// Function to close the modal (if you have one)
+
+
+
+  // Handle form submission
+  const addressForm = document.getElementById("addressForm");
+  addressForm.addEventListener("submit", function (e) {
+    // Check if the save button is visible (i.e., form is valid)
+    if (saveButton.classList.contains("hidden")) {
+      e.preventDefault();  // Prevent form submission
+      alert("Please ensure both dates are valid before saving.");
+    }
+  });
+
+
+
       // Toggle visibility of criminal history details based on selection
       function toggleCriminalHistory(hasCriminalHistory) {
         const criminalHistoryDetails = document.getElementById(
@@ -2151,6 +2181,7 @@ const manualFields = document.getElementById("manualAddressFields");
 const mapboxSearchContainer = document.getElementById("mapboxSearchContainer");
 const mapboxSearch = document.getElementById("mapboxSearch");
 const saveButton = document.getElementById("saveButton");
+const addbutton = document.getElementById("addbutton");
 const cancelButton = document.getElementById("cancelButton");
 const searchBox = document.getElementById("searchBox"); // সঠিকভাবে searchBox ডিফাইন করুন
 
@@ -2162,48 +2193,77 @@ countrySelect.addEventListener("change", function () {
     otherCountryInput.classList.add("hidden");
   }
 });
-
-let isManual = false;
-
-// Show the toggle button when the page loads
 toggleButton.classList.remove("hidden");
-
 toggleButton.addEventListener("click", function () {
-  isManual = !isManual; // Toggle manual mode
-
-  manualFields.classList.toggle("hidden");
-  mapboxSearchContainer.classList.toggle("hidden"); // Corrected to mapboxSearchContainer
-
-  toggleButton.textContent = isManual ? "Use Search Address" : "Manually Enter Address"; // Toggle text based on mode
-  saveButton.textContent = "Save"; // Always show 'Save' text
-});
-
-// Auto switch to search when typing in the Mapbox search box & change Save button to Submit
-mapboxSearch.addEventListener("keyup", function () {
-  isManual = false;
-  manualFields.classList.add("hidden");
-  mapboxSearchContainer.classList.remove("hidden"); // Corrected to mapboxSearchContainer
-  toggleButton.textContent = "Manually Enter Address";
-  saveButton.textContent = "Submit";
-});
-
-// When Submit button is clicked, switch back to manual input but DO NOT close modal
-saveButton.addEventListener("click", function (event) {
-  event.preventDefault(); // Prevent closing the modal
-
-  if (saveButton.textContent === "Submit") {
-    isManual = true;
-    manualFields.classList.remove("hidden");
-    mapboxSearchContainer.classList.add("hidden"); // Corrected
-    toggleButton.textContent = "Use Search Address"; // Change button text back
-    saveButton.textContent = "Save";
-  }
-});
-
-// Close modal when cancel button is clicked
+  document.getElementById("manualAddressFields").classList.remove("hidden");
+  mapboxSearchContainer.classList.add("hidden");
+  saveButton.classList.remove("hidden");
+  toggleButton.classList.add("hidden");
+})
+document.getElementById("mapboxSearch").addEventListener("retrieve", function (event) {
+    const selectedAddress = event.detail;
+   
+    if (selectedAddress) {
+      document.getElementById("manualAddressFields").classList.remove("hidden");
+      mapboxSearchContainer.classList.add("hidden");
+      saveButton.classList.remove("hidden");
+      toggleButton.classList.add("hidden");
+    }
+  });
+  // // Close modal when cancel button is clicked
 cancelButton.addEventListener("click", function () {
-  document.getElementById("modal").classList.add("hidden");
+  document.getElementById("addressModal").classList.add("hidden");
+  document.getElementById("manualAddressFields").classList.add("hidden");
+  mapboxSearchContainer.classList.remove("hidden");
+  toggleButton.classList.remove("hidden");
+  saveButton.classList.add("hidden");
 });
+addbutton.addEventListener("click", function () {
+  document.getElementById("addressModal").classList.remove("hidden");
+  document.getElementById("manualAddressFields").classList.add("hidden");
+  mapboxSearchContainer.classList.remove("hidden");
+  toggleButton.classList.remove("hidden");
+  saveButton.classList.add("hidden");
+});
+
+
+// let isManual = false;
+
+// // Show the toggle button when the page loads
+// toggleButton.classList.remove("hidden");
+
+// toggleButton.addEventListener("click", function () {
+//   isManual = !isManual; // Toggle manual mode
+
+//   manualFields.classList.toggle("hidden");
+//   mapboxSearchContainer.classList.toggle("hidden"); // Corrected to mapboxSearchContainer
+
+//   toggleButton.textContent = isManual ? "Use Search Address" : "Manually Enter Address"; // Toggle text based on mode
+//   saveButton.textContent = "Save"; // Always show 'Save' text
+// });
+
+// // Auto switch to search when typing in the Mapbox search box & change Save button to Submit
+// mapboxSearch.addEventListener("keyup", function () {
+//   isManual = false;
+//   manualFields.classList.add("hidden");
+//   mapboxSearchContainer.classList.remove("hidden"); // Corrected to mapboxSearchContainer
+//   toggleButton.textContent = "Manually Enter Address";
+//   saveButton.textContent = "Submit";
+// });
+
+// // When Submit button is clicked, switch back to manual input but DO NOT close modal
+// saveButton.addEventListener("click", function (event) {
+//   event.preventDefault(); // Prevent closing the modal
+
+//   if (saveButton.textContent === "Submit") {
+//     isManual = true;
+//     manualFields.classList.remove("hidden");
+//     mapboxSearchContainer.classList.add("hidden"); // Corrected
+//     toggleButton.textContent = "Use Search Address"; // Change button text back
+//     saveButton.textContent = "Save";
+//   }
+// });
+
 
       </script>
   </body>
