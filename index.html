@@ -14,11 +14,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Acme</title>
     <style>
-       #saveButton:disabled {
-    background-color: #d1d5db; /* Light gray background color */
-    color: #6b7280; /* Gray text color */
-    cursor: not-allowed; /* Change cursor to indicate the button is disabled */
-  }
+      
       /* Custom styling for invalid inputs */
       .invalid {
         border-color: red !important;
@@ -457,21 +453,21 @@
             <div id="criminal-record-entries" class="space-y-4">
               <div class="record-entry flex space-x-2">
                 <input
-                  
+                  required
                   type="text"
                   placeholder="Offence"
                   class="w-1/3 p-2 border rounded-lg"
                 />
 
                 <input
-                 
+                 required
                   type="date"
                   id="DeclareDate"
-                  placeholder="Sentence Date"
-                  class="w-1/3 p-2 border rounded-lg"
+                  placeholder="yyyy-mm"
+                  class="w-1/3 p-2 border rounded-lg datepicker"
                 />
                 <input
-               
+               required
                   type="text"
                   placeholder="Court Location"
                   class="w-1/3 p-2 border rounded-lg"
@@ -1249,6 +1245,7 @@
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 
               />
+              <p id="fromDateError" class="text-red-500 text-sm hidden">Please enter a valid date.</p>
             </div>
             <div class="sm:w-1/2 space-y-2">
               <label for="toDate1" class="datepicker block text-sm font-medium">To:</label>
@@ -1259,10 +1256,11 @@
                 placeholder="yyyy-mm"
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                
-              />
+              /> <p id="toDateError" class="text-red-500 text-sm hidden">Please enter a valid date.</p>
             </div>
           </div>
         </div>
+        <p id="dateRangeError" class="text-red-500 text-sm hidden">The date range must be at least 5 years.</p>
           <!-- Submit & Cancel Buttons -->
           <div class="mt-4 flex justify-end space-x-2">
             <button
@@ -1275,7 +1273,7 @@
             <button
             id="saveButton"
               type="submit"
-              disabled
+              
               class="text-white bg-blue-500 px-4 py-2 rounded-md hidden"
             >
               Save
@@ -1377,19 +1375,19 @@
   //   dateFormat: "Y-m", // yyyy/mm/dd format
   // });
       flatpickr("#fromDate2", {
-    dateFormat: "Y-m-d", // yyyy/mm/dd format
+    dateFormat: "Y-m", // yyyy/mm/dd format
   });
       flatpickr("#toDate2", {
-    dateFormat: "Y-m-d", // yyyy/mm/dd format
+    dateFormat: "Y-m", // yyyy/mm/dd format
   });
       flatpickr("#fromDate3", {
-    dateFormat: "Y-m-d", // yyyy/mm/dd format
+    dateFormat: "Y-m", // yyyy/mm/dd format
   });
       flatpickr("#toDate3", {
-    dateFormat: "Y-m-d", // yyyy/mm/dd format
+    dateFormat: "Y-m", // yyyy/mm/dd format
   });
       flatpickr("#DeclareDate", {
-    dateFormat: "Y-m-d", // yyyy/mm/dd format
+    dateFormat: "Y-m", // yyyy/mm/dd format
   });
       // Function to validate the entire form
       const validateForm = () => {
@@ -1669,6 +1667,7 @@ document.addEventListener("DOMContentLoaded", () => {
           modalTitle.textContent = "Add Home Address";
           form.onsubmit = (e) => addAddress(e);
         }
+        
       }
 
       function closeModal() {
@@ -1782,7 +1781,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     
      <a onclick="openModal(${index})" class="underline mb-2" style="color: blue;
-    cursor: pointer;"> <h4 class="font-medium">${address.fromDate} - ${address.toDate} : #Apartment${address.streetNumber} , ${address.street} , ${address.city} , ${address.province} </h4></a>
+    cursor: pointer;"> <h4 class="font-medium">${address.fromDate} - ${address.toDate} : #[${address.apartment} ] ${address.streetNumber} , ${address.street} , ${address.city} , ${address.province} [${address.country}] </h4></a>
     </div>
 
 `;
@@ -1835,7 +1834,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const saveButton = document.getElementById("saveButton");
 
   // Initially, disable the Save button
-  saveButton.disabled = true;
+  // saveButton.disabled = true;
 
   function validateDates() {
     const fromDate = new Date(fromDateInput.selectedDates[0]);
@@ -1865,15 +1864,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Enable Save button if both dates are valid
-      if (fromDateInput.input.checkValidity() && toDateInput.input.checkValidity()) {
-        saveButton.disabled = false;
-      } else {
-        saveButton.disabled = true;
-      }
-    } else {
-      // If both dates are not selected, keep the Save button disabled
-      saveButton.disabled = true;
-    }
+    //   if (fromDateInput.input.checkValidity() && toDateInput.input.checkValidity()) {
+    //     saveButton.disabled = false;
+    //   } else {
+    //     saveButton.disabled = true;
+    //   }
+    // } else {
+    //   // If both dates are not selected, keep the Save button disabled
+    //   saveButton.disabled = true;
+     }
   }
 
   // Function to reset the form
@@ -1886,7 +1885,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (toDateInput) toDateInput.clear();
 
     // Disable the Save button
-    saveButton.disabled = true;
+    // saveButton.disabled = true;
   }
 
   // Event listener for the "Add Address" button
@@ -1960,7 +1959,7 @@ document.addEventListener("DOMContentLoaded", () => {
         newRow.classList.add("record-entry", "flex", "space-x-2");
         newRow.innerHTML = `
     <input type="text" placeholder="Offence" class="w-1/3 p-2 border rounded-lg" />
-    <input type="date" placeholder="Sentence Date" class="w-1/3 p-2 border rounded-lg" />
+    <input type="date" id="DeclareDate" placeholder="yyyy-mm" class="w-1/3 p-2 border rounded-lg" />
     <input type="text" placeholder="Court Location" class="w-1/3 p-2 border rounded-lg" />
     <button type="button" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600" onclick="removeRow(this)">
       Delete
@@ -2317,6 +2316,100 @@ addButton.addEventListener("click", function () {
 // });
 
 
+      </script>
+      <!-- <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const fromDateInput = document.getElementById("fromDate1");
+          const toDateInput = document.getElementById("toDate1");
+          const saveButton = document.getElementById("saveButton");
+      
+          saveButton.addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent form submission
+      
+            const fromDate = new Date(fromDateInput.value);
+            const toDate = new Date(toDateInput.value);
+      
+            if (!fromDateInput.value || !toDateInput.value) {
+              alert("Please select both From and To dates.");
+              return;
+            }
+      
+            const yearDiff = toDate.getFullYear() - fromDate.getFullYear();
+            const monthDiff = toDate.getMonth() - fromDate.getMonth();
+            const totalMonths = yearDiff * 12 + monthDiff;
+      
+            if (totalMonths >= 60) {
+              alert("Form submitted successfully!"); 
+              // Here you can replace with actual form submission logic
+            } else {
+              alert("The date range must be at least 5 years.");
+            }
+          });
+        });
+      </script> -->
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const form = document.getElementById("addressForm"); 
+          const fromDateInput = document.getElementById("fromDate1");
+          const toDateInput = document.getElementById("toDate1");
+          const fromDateError = document.getElementById("fromDateError");
+          const toDateError = document.getElementById("toDateError");
+          const dateRangeError = document.getElementById("dateRangeError");
+          const saveButton = document.getElementById("saveButton");
+      
+          function validateForm() {
+            let isValid = true;
+      
+            // Reset previous errors
+            fromDateInput.classList.remove("border-red-500");
+            toDateInput.classList.remove("border-red-500");
+            fromDateError.classList.add("hidden");
+            toDateError.classList.add("hidden");
+            dateRangeError.classList.add("hidden");
+         
+      
+            const fromDate = new Date(fromDateInput.value);
+            const toDate = new Date(toDateInput.value);
+      
+            if (!fromDateInput.value) {
+              fromDateInput.classList.add("border-red-500");
+              fromDateError.classList.remove("hidden");
+              isValid = false;
+            }
+      
+            if (!toDateInput.value) {
+              toDateInput.classList.add("border-red-500");
+              toDateError.classList.remove("hidden");
+              isValid = false;
+            }
+      
+            if (fromDateInput.value && toDateInput.value) {
+              const yearDiff = toDate.getFullYear() - fromDate.getFullYear();
+              const monthDiff = toDate.getMonth() - fromDate.getMonth();
+              const totalMonths = yearDiff * 12 + monthDiff;
+      
+              if (totalMonths < 60) {
+                fromDateInput.classList.add("border-red-500");
+                toDateInput.classList.add("border-red-500");
+                dateRangeError.classList.remove("hidden");
+                isValid = false;
+              }
+            }
+      
+          
+      
+            return isValid;
+          }
+      
+          fromDateInput.addEventListener("input", validateForm);
+          toDateInput.addEventListener("input", validateForm);
+      
+          form.addEventListener("submit", function (event) {
+            if (!validateForm()) {
+              event.preventDefault(); // Stop form submission if validation fails
+            }
+          });
+        });
       </script>
   </body>
 </html>
