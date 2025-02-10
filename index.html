@@ -14,7 +14,18 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Acme</title>
     <style>
-      
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.border-red-500 {
+  border-color: #ef4444; /* Red border for error */
+}
+
+.error-message {
+  color: #ef4444; /* Red text for error messages */
+}
       /* Custom styling for invalid inputs */
       .invalid {
         border-color: red !important;
@@ -596,7 +607,7 @@
                 </svg>
               </div>
             </button>
-            <div id="accordion-content-2" class="accordion-content p-4">
+            <div id="accordion-content-2" class="accordion-content p-4 hidden">
               <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
                 <div class="sm:w-1/2 space-y-2">
                   <label for="institutionType" class="block text-sm font-medium"
@@ -716,25 +727,25 @@
 
               <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
                 <div class="sm:w-1/2 space-y-2">
-                  <label for="fromDate2" class="block text-sm font-medium"
+                  <label for="fromDate20" class="block text-sm font-medium"
                     >From:</label
                   >
                   <input
                     required
                     type="date"
-                    id="fromDate2"
-                    placeholder="yyyy-mm-dd"
-                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    id="fromDate20"
+                    placeholder="yyyy-mm"
+                    class="datepicker w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div class="sm:w-1/2 space-y-2">
-                  <label for="toDate2" class="block text-sm font-medium">To:</label>
+                  <label for="toDate20" class="block text-sm font-medium">To:</label>
                   <input
                     required
                     type="date"
-                    id="toDate2"
-                    placeholder="yyyy-mm-dd"
-                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    id="toDate20"
+                    placeholder="yyyy-mm"
+                    class="datepicker w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
@@ -767,7 +778,7 @@
                 </svg>
               </div>
             </button>
-            <div id="accordion-content-3" class="accordion-content p-4">
+            <div id="accordion-content-3" class="accordion-content p-4 hidden">
               <p>This is another section that can be expanded or collapsed.</p>
             </div>
           </div>
@@ -798,7 +809,7 @@
                 </svg>
               </div>
             </button>
-            <div id="accordion-content-4" class="accordion-content p-4">
+            <div id="accordion-content-4" class="accordion-content p-4 hidden">
               <h6 class="text-red-500 font-semibold">
                 Please take care to supply accurate information, particularly
                 for the reference name, email address and telephone number.
@@ -898,14 +909,14 @@
 
               <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
                 <div class="sm:w-1/2 space-y-2">
-                  <label for="fromDate3" class="block text-sm font-medium"
+                  <label for="fromDate3" class=" block text-sm font-medium"
                     >From:</label
                   >
                   <input
                     type="date"
                     id="fromDate3"
-                    placeholder="yyyy-mm-dd"
-                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="yyyy-mm"
+                    class="datepicker w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div class="sm:w-1/2 space-y-2">
@@ -915,8 +926,8 @@
                   <input
                     type="date"
                     id="toDate3"
-                    placeholder="yyyy-mm-dd"
-                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="yyyy-mm"
+                    class="datepicker w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
@@ -1374,10 +1385,10 @@
   //     flatpickr("#toDate1", {
   //   dateFormat: "Y-m", // yyyy/mm/dd format
   // });
-      flatpickr("#fromDate2", {
+      flatpickr("#fromDate20", {
     dateFormat: "Y-m", // yyyy/mm/dd format
   });
-      flatpickr("#toDate2", {
+      flatpickr("#toDate20", {
     dateFormat: "Y-m", // yyyy/mm/dd format
   });
       flatpickr("#fromDate3", {
@@ -2041,27 +2052,68 @@ document.addEventListener("DOMContentLoaded", () => {
           goToStep(4);
         }
       }
+      document.addEventListener("DOMContentLoaded", function () {
+  // Open the first accordion by default
+  toggleAccordion(1, true); // Force open the first accordion
 
-      function toggleAccordion(index) {
-        const content = document.getElementById(`accordion-content-${index}`);
-        const icon = document.getElementById(`accordion-icon-${index}`);
-        if (content.classList.contains("hidden")) {
-          content.classList.remove("hidden");
-          icon.classList.add("rotate-180");
-        } else {
-          content.classList.add("hidden");
-          icon.classList.remove("rotate-180");
-        }
-      }
+  // Add event listeners to required fields in each accordion
+  setupAccordion(1, 2); // From accordion 1 to accordion 2
+  setupAccordion(2, 3); // From accordion 2 to accordion 3
+  setupAccordion(3, 4); // From accordion 3 to accordion 4
+});
 
-      function handleInput(input) {
-        // Remove error message and red border on input change
-        const errorElement = document.getElementById(`${input.id}-error`);
-        if (input.value.trim()) {
-          input.classList.remove("border-red-500");
-          if (errorElement) errorElement.classList.add("hidden");
-        }
+function setupAccordion(currentIndex, nextIndex) {
+  const currentAccordionContent = document.getElementById(`accordion-content-${currentIndex}`);
+  const requiredFields = currentAccordionContent.querySelectorAll("input[required], select[required]");
+
+  requiredFields.forEach((field) => {
+    field.addEventListener("input", () => {
+      if (areAllRequiredFieldsFilled(requiredFields)) {
+        // Close the current accordion
+        toggleAccordion(currentIndex, false); // Force close
+        // Open the next accordion
+        toggleAccordion(nextIndex, true); // Force open
       }
+    });
+  });
+}
+
+function areAllRequiredFieldsFilled(fields) {
+  return Array.from(fields).every((field) => field.value.trim() !== "");
+}
+
+function toggleAccordion(index, forceState) {
+  const content = document.getElementById(`accordion-content-${index}`);
+  const icon = document.getElementById(`accordion-icon-${index}`);
+
+  if (forceState === true) {
+    // Force open the accordion
+    content.classList.remove("hidden");
+    icon.classList.add("rotate-180");
+  } else if (forceState === false) {
+    // Force close the accordion
+    content.classList.add("hidden");
+    icon.classList.remove("rotate-180");
+  } else {
+    // Toggle the accordion
+    if (content.classList.contains("hidden")) {
+      content.classList.remove("hidden");
+      icon.classList.add("rotate-180");
+    } else {
+      content.classList.add("hidden");
+      icon.classList.remove("rotate-180");
+    }
+  }
+}
+
+function handleInput(input) {
+  // Remove error message and red border on input change
+  const errorElement = document.getElementById(`${input.id}-error`);
+  if (input.value.trim()) {
+    input.classList.remove("border-red-500");
+    if (errorElement) errorElement.classList.add("hidden");
+  }
+}
       // Open the modal
       function openmyModal() {
         document.getElementById("myModal").classList.remove("hidden");
@@ -2317,99 +2369,161 @@ addButton.addEventListener("click", function () {
 
 
       </script>
-      <!-- <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          const fromDateInput = document.getElementById("fromDate1");
-          const toDateInput = document.getElementById("toDate1");
-          const saveButton = document.getElementById("saveButton");
-      
-          saveButton.addEventListener("click", function (event) {
-            event.preventDefault(); // Prevent form submission
-      
-            const fromDate = new Date(fromDateInput.value);
-            const toDate = new Date(toDateInput.value);
-      
-            if (!fromDateInput.value || !toDateInput.value) {
-              alert("Please select both From and To dates.");
-              return;
-            }
-      
-            const yearDiff = toDate.getFullYear() - fromDate.getFullYear();
-            const monthDiff = toDate.getMonth() - fromDate.getMonth();
-            const totalMonths = yearDiff * 12 + monthDiff;
-      
-            if (totalMonths >= 60) {
-              alert("Form submitted successfully!"); 
-              // Here you can replace with actual form submission logic
-            } else {
-              alert("The date range must be at least 5 years.");
-            }
-          });
-        });
-      </script> -->
+     
       <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          const form = document.getElementById("addressForm"); 
-          const fromDateInput = document.getElementById("fromDate1");
-          const toDateInput = document.getElementById("toDate1");
-          const fromDateError = document.getElementById("fromDateError");
-          const toDateError = document.getElementById("toDateError");
-          const dateRangeError = document.getElementById("dateRangeError");
-          const saveButton = document.getElementById("saveButton");
-      
-          function validateForm() {
-            let isValid = true;
-      
-            // Reset previous errors
-            fromDateInput.classList.remove("border-red-500");
-            toDateInput.classList.remove("border-red-500");
-            fromDateError.classList.add("hidden");
-            toDateError.classList.add("hidden");
-            dateRangeError.classList.add("hidden");
-         
-      
-            const fromDate = new Date(fromDateInput.value);
-            const toDate = new Date(toDateInput.value);
-      
-            if (!fromDateInput.value) {
-              fromDateInput.classList.add("border-red-500");
-              fromDateError.classList.remove("hidden");
-              isValid = false;
-            }
-      
-            if (!toDateInput.value) {
-              toDateInput.classList.add("border-red-500");
-              toDateError.classList.remove("hidden");
-              isValid = false;
-            }
-      
-            if (fromDateInput.value && toDateInput.value) {
-              const yearDiff = toDate.getFullYear() - fromDate.getFullYear();
-              const monthDiff = toDate.getMonth() - fromDate.getMonth();
-              const totalMonths = yearDiff * 12 + monthDiff;
-      
-              if (totalMonths < 60) {
-                fromDateInput.classList.add("border-red-500");
-                toDateInput.classList.add("border-red-500");
-                dateRangeError.classList.remove("hidden");
-                isValid = false;
-              }
-            }
-      
-          
-      
-            return isValid;
-          }
-      
-          fromDateInput.addEventListener("input", validateForm);
-          toDateInput.addEventListener("input", validateForm);
-      
-          form.addEventListener("submit", function (event) {
-            if (!validateForm()) {
-              event.preventDefault(); // Stop form submission if validation fails
-            }
-          });
-        });
+   document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("addressForm");
+  const saveButton = document.getElementById("saveButton");
+  const cancelButton = document.getElementById("cancelButton");
+  const modal = document.getElementById("yourModalId"); // Replace with your modal ID
+  const fromDateInput = document.getElementById("fromDate1");
+  const toDateInput = document.getElementById("toDate1");
+  const inputs = form.querySelectorAll("input[required]");
+  const errors = {
+    fromDateError: document.getElementById("fromDateError"),
+    toDateError: document.getElementById("toDateError"),
+    dateRangeError: document.getElementById("dateRangeError"),
+  };
+
+  function clearValidationErrors() {
+    inputs.forEach((input) => {
+      input.classList.remove("border-red-500");
+      const errorMsg = input.nextElementSibling;
+      if (errorMsg && errorMsg.classList.contains("text-red-500")) {
+        errorMsg.classList.add("hidden");
+      }
+    });
+
+    // Hide date range error
+    errors.dateRangeError.classList.add("hidden");
+  }
+
+  function validateForm() {
+    let isValid = true;
+    clearValidationErrors(); // Reset previous errors
+
+    // Validate all required fields
+    inputs.forEach((input) => {
+      if (!input.value.trim()) {
+        input.classList.add("border-red-500");
+        const errorMsg = input.nextElementSibling;
+        if (errorMsg && errorMsg.classList.contains("text-red-500")) {
+          errorMsg.classList.remove("hidden");
+        }
+        isValid = false;
+      }
+    });
+
+    // Validate Date Range
+    const fromDate = new Date(fromDateInput.value);
+    const toDate = new Date(toDateInput.value);
+
+    if (fromDateInput.value && toDateInput.value) {
+      const yearDiff = toDate.getFullYear() - fromDate.getFullYear();
+      const monthDiff = toDate.getMonth() - fromDate.getMonth();
+      const totalMonths = yearDiff * 12 + monthDiff;
+
+      if (totalMonths < 60) {
+        fromDateInput.classList.add("border-red-500");
+        toDateInput.classList.add("border-red-500");
+        errors.dateRangeError.classList.remove("hidden");
+        isValid = false;
+      }
+    }
+
+    return isValid;
+  }
+
+  // Show validation errors when clicking Save
+  saveButton.addEventListener("click", function (event) {
+    if (!validateForm()) {
+      event.preventDefault(); // Prevent form submission if validation fails
+    }
+  });
+
+  // Live validation when typing
+  inputs.forEach((input) => {
+    input.addEventListener("input", function () {
+      input.classList.remove("border-red-500");
+      const errorMsg = input.nextElementSibling;
+      if (errorMsg && errorMsg.classList.contains("text-red-500")) {
+        errorMsg.classList.add("hidden");
+      }
+    });
+  });
+
+  // Reset form and validation when clicking Cancel
+  cancelButton.addEventListener("click", function () {
+    form.reset();
+    clearValidationErrors();
+  });
+
+  // Ensure validation is cleared when modal opens
+  modal.addEventListener("show", function () {
+    form.reset();
+    clearValidationErrors();
+  });
+});
+
+// Declaration
+
+document.addEventListener("DOMContentLoaded", function () {
+  const declareCriminalHistory = document.getElementById("option2");
+  const noCriminalHistory = document.getElementById("option1");
+  const criminalHistoryDetails = document.getElementById("criminal-history-details");
+  const form = document.getElementById("step-2-form");
+
+  function toggleCriminalHistory(show) {
+    if (show) {
+      criminalHistoryDetails.classList.remove("hidden");
+
+      // Enable required attribute for fields
+      criminalHistoryDetails.querySelectorAll("input").forEach(input => {
+        input.setAttribute("required", "true");
+      });
+
+    } else {
+      criminalHistoryDetails.classList.add("hidden");
+
+      // Remove required attribute for fields
+      criminalHistoryDetails.querySelectorAll("input").forEach(input => {
+        input.removeAttribute("required");
+      });
+    }
+  }
+
+  function validateAndProceed1(event) {
+    if (declareCriminalHistory.checked) {
+      // If "Declare Criminal History" is selected, validate required fields
+      const requiredFields = criminalHistoryDetails.querySelectorAll("input[required]");
+      let isValid = true;
+
+      requiredFields.forEach(input => {
+        if (!input.value.trim()) {
+          input.classList.add("border-red-500");
+          isValid = false;
+        } else {
+          input.classList.remove("border-red-500");
+        }
+      });
+
+      if (!isValid) {
+        event.preventDefault(); // Stop form submission if required fields are empty
+        alert("Please fill in all required fields before proceeding.");
+        return false;
+      }
+    }
+
+    return true; // Allow form submission if valid
+  }
+
+  // Attach event listeners
+  noCriminalHistory.addEventListener("click", () => toggleCriminalHistory(false));
+  declareCriminalHistory.addEventListener("click", () => toggleCriminalHistory(true));
+
+  form.addEventListener("submit", validateAndProceed1);
+});
+
       </script>
   </body>
 </html>
