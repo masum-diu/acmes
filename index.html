@@ -6,6 +6,7 @@
      <link
       href="https://api.mapbox.com/mapbox-assembly/v1.3.0/assembly.min.css"
     />
+    <link rel="stylesheet" href="styles.css">
     <script
       id="search-js"
       defer
@@ -30,17 +31,7 @@
       .invalid {
         border-color: red !important;
       }
-      .step-active {
-        background: linear-gradient(to right, #ec141c, #ec141c);
-        color: white;
-      }
-      .step-inactive {
-        background: #e5e7eb;
-        color: #6b7280;
-      }
-      .line-active {
-        background: linear-gradient(to right, #ec141c, #ec141c);
-      }
+      
       .border-red-500 {
         border-color: #f56565 !important;
       }
@@ -383,7 +374,7 @@
             <button
               type="button"
               id="nextButton"
-              class="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600"
+              class="w-full text-white py-2 rounded-lg next-button"
             >
               Next
             </button>
@@ -506,13 +497,13 @@
             <button
               type="button"
               onclick="goToStep(1)"
-              class="bg-gray-400 text-white py-2 px-6 rounded hover:bg-gray-500"
+              class="back text-white py-2 px-6 rounded"
             >
               Back
             </button>
             <button
               type="submit"
-              class="bg-red-500 text-white py-2 px-6 rounded hover:bg-red-600"
+              class="next-button text-white py-2 px-6 rounded "
             >
               Next
             </button>
@@ -938,13 +929,13 @@
             <button
               type="button"
               onclick="goToStep(2)"
-              class="bg-gray-400 text-white py-2 px-6 rounded hover:bg-gray-500"
+              class="back text-white py-2 px-6 rounded "
             >
               Back
             </button>
             <button
               type="submit"
-              class="bg-red-500 text-white py-2 px-6 rounded hover:bg-red-600"
+              class=" text-white py-2 px-6 rounded next-button"
             >
               Next
             </button>
@@ -1024,13 +1015,13 @@
             <button
               type="button"
               onclick="goToStep(3)"
-              class="bg-gray-400 text-white py-2 px-6 rounded hover:bg-gray-500"
+              class="back text-white py-2 px-6 rounded"
             >
               Back
             </button>
             <button
               type="submit"
-              class="bg-red-500 text-white py-2 px-6 rounded hover:bg-red-600"
+              class="next-button text-white py-2 px-6 rounded "
             >
               Next
             </button>
@@ -1050,7 +1041,7 @@
           <button
             type="button"
             onclick="goToStep(4)"
-            class="bg-gray-400 text-white py-2 px-6 rounded hover:bg-gray-500"
+            class="back text-white py-2 px-6 rounded"
           >
             Back 
           </button>
@@ -1075,9 +1066,9 @@
           copies of two pieces of your identification, they will be in touch to
           request these from you.
         </p>
-        <button onclick="goToStep(1)" class="bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600">
+        <!-- <button onclick="goToStep(1)" class="bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600">
           Start Again
-        </button>
+        </button> -->
       </div>
     </div>
   
