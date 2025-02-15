@@ -1011,7 +1011,7 @@
             <a>Click to Sign Waiver</a>
           </div>
           <canvas id="signaturePreview" width="300" height="150"></canvas>
-          
+          <p id="signatureError" class="text-red-500 text-sm mt-2 hidden">Please sign the waiver before proceeding.</p>
           <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
             <div class="sm:w-1/2 space-y-2">
               <label for="agreedby" class="block text-sm font-medium"
@@ -2330,6 +2330,7 @@ function handleInput(input) {
 
       // Save and show preview
       function saveSignature() {
+        const signatureError = document.getElementById("signatureError");
         const previewCanvas = document.getElementById("signaturePreview");
         const previewCtx = previewCanvas.getContext("2d");
         const imageData = canvas.toDataURL();
@@ -2339,29 +2340,42 @@ function handleInput(input) {
         img.onload = function () {
           previewCtx.drawImage(img, 0, 0);
         };
+        signatureError.classList.add("hidden");
         closeMyModal();
       }
       function closeMyModal() {
     document.getElementById("myModal").style.display = "none";
   }
-      // Form validation before proceeding
-      function validateAndProceed4(event) {
-        event.preventDefault();
-        const middleName = document.getElementById("middleName").value;
-        const agreedby = document.getElementById("agreedby").value;
-        const agreedat = document.getElementById("agreedat").value;
+  function validateAndProceed4(event) {
+    event.preventDefault();
 
-        if (!middleName || !agreedby || !agreedat) {
-          alert("Please fill in all the required fields.");
-          return false;
-        }
+    const middleName = document.getElementById("middleName").value.trim();
+    const agreedby = document.getElementById("agreedby").value.trim();
+    const agreedat = document.getElementById("agreedat").value.trim();
+    const signatureError = document.getElementById("signatureError");
+    // Check if required fields are filled
+    if (!middleName || !agreedby || !agreedat) {
+        alert("Please fill in all the required fields.");
+        return false;
+    }
 
-        // Additional form validation logic can be added here
+    // Check if the signature is present
+    let canvas = document.getElementById("signaturePreview");
+    let ctx = canvas.getContext("2d");
+    
+    let isCanvasBlank = !ctx.getImageData(0, 0, canvas.width, canvas.height)
+        .data.some(channel => channel !== 0);
 
-        // Proceed to the next step if validation is successful
-        goToStep(5);
-        return true;
-      }
+    if (isCanvasBlank) {
+      signatureError.classList.remove("hidden");
+        return false;
+    }
+
+    // Proceed to the next step if validation passes
+    goToStep(5);
+    return true;
+}
+
 
   const provinceLabel = document.querySelector("label[for='province1']");
   const postalLabel = document.querySelector("label[for='postal1']");
