@@ -15,7 +15,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Acme</title>
     <style>
+.text-gray-500 {
+  color: #6b7280; /* Gray color */
+}
 
+.text-green-500 {
+  color: #10b981; /* Green color */
+}
 .rotate-180 {
   transform: rotate(180deg);
 }
@@ -521,7 +527,9 @@
           </h3>
 
           <div class="accordion-item">
+          
             <button
+            
               type="button"
               onclick="toggleAccordion(1)"
               class="w-full text-left p-2 bg-gray-700 text-white hover:bg-gray-600 focus:outline-none border rounded"
@@ -530,6 +538,11 @@
                 <span class="font-semibold"
                   >1: Consumer credit check - Report of caredit bureau</span
                 >
+                <div class="flex justify-between items-center ">
+                <svg    id="accordion-icon-1-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle mr-5 text-gray-500" viewBox="0 0 16 16">
+                  <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"/>
+                  <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
+                </svg>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -545,6 +558,7 @@
                     d="M19 9l-7 7-7-7"
                   ></path>
                 </svg>
+              </div>
               </div>
             </button>
             <div id="accordion-content-1" class="accordion-content">
@@ -564,7 +578,7 @@
                   id="socialInsuranceNumber-error"
                   class="error-message hidden text-red-500 mb-2"
                 >
-                  This field is required.
+                  
                 </p>
               </div>
             </div>
@@ -581,6 +595,11 @@
                 <span class="font-semibold"
                   >2: Education/credential verification (Dhaka University)</span
                 >
+                <div class="flex justify-between items-center ">
+                  <svg id="accordion-icon-2-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle mr-5 text-gray-500" viewBox="0 0 16 16">
+                    <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"/>
+                    <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
+                  </svg>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -596,6 +615,7 @@
                     d="M19 9l-7 7-7-7"
                   ></path>
                 </svg>
+                </div>
               </div>
             </button>
             <div id="accordion-content-2" class="accordion-content p-4 hidden">
@@ -622,7 +642,7 @@
                     id="institutionType-error"
                     class="error-message hidden text-red-500"
                   >
-                    This field is required.
+                    
                   </p>
                 </div>
                 <div class="sm:w-1/2 space-y-2">
@@ -643,7 +663,7 @@
                     id="educationInstitution-error"
                     class="error-message hidden text-red-500"
                   >
-                    This field is required.
+                    
                   </p>
                 </div>
               </div>
@@ -752,6 +772,11 @@
                 <span class="font-semibold"
                   >3: Employment - Verification (Certes Solutions Inc)</span
                 >
+                <div class="flex justify-between items-center ">
+                  <svg id="accordion-icon-3-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle mr-5 text-gray-500" viewBox="0 0 16 16">
+                    <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"/>
+                    <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
+                  </svg>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -767,6 +792,7 @@
                     d="M19 9l-7 7-7-7"
                   ></path>
                 </svg>
+                </div>
               </div>
             </button>
             <div id="accordion-content-3" class="accordion-content p-4 hidden">
@@ -783,6 +809,19 @@
                 <span class="font-semibold"
                   >4: Employment - Reference (Ed Escubedo)</span
                 >
+                <div class="flex justify-between items-center ">
+                  <svg
+                  id="accordion-icon-4-check"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-check2-circle mr-5 text-gray-500"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"/>
+                  <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
+                </svg>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -798,6 +837,7 @@
                     d="M19 9l-7 7-7-7"
                   ></path>
                 </svg>
+                </div>
               </div>
             </button>
             <div id="accordion-content-4" class="accordion-content p-4 hidden">
@@ -813,11 +853,9 @@
               </h6>
               <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
                 <div class="sm:w-1/2 space-y-2">
-                  <label for="email" class="block text-sm font-medium"
-                    >Country:</label
-                  >
+                  <label for="Country100-4" class="block text-sm font-medium">Country:</label>
                   <select
-                    id="sector"
+                    id="sector100-4"
                     class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   >
                     <!-- <option value="">Select a Country</option> -->
@@ -827,36 +865,32 @@
                   </select>
                 </div>
                 <div class="sm:w-1/2 space-y-2">
-                  <label for="name" class="block text-sm font-medium"
-                    >Street Name:</label
-                  >
+                  <label for="name100-4" class="block text-sm font-medium">Street Name:</label>
                   <input
                     type="text"
-                    id="name"
+                    id="name100-4"
                     placeholder="Street name"
+                    required
                     class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
+                  <!-- <p id="name100-4-error" class="error-message hidden text-red-500">This field is required.</p> -->
                 </div>
               </div>
               <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
                 <div class="sm:w-1/2 space-y-2">
-                  <label for="name" class="block text-sm font-medium"
-                    >Apartment:</label
-                  >
+                  <label for="Apartment100-4" class="block text-sm font-medium">Apartment:</label>
                   <input
                     type="text"
-                    id="name"
+                    id="Apartment100-4"
                     placeholder="Apartment"
                     class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div class="sm:w-1/2 space-y-2">
-                  <label for="email" class="block text-sm font-medium"
-                    >City:</label
-                  >
+                  <label for="City100-4" class="block text-sm font-medium">City:</label>
                   <input
                     type="text"
-                    id="email"
+                    id="City100-4"
                     placeholder="city"
                     class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
@@ -864,45 +898,39 @@
               </div>
               <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
                 <div class="sm:w-1/2 space-y-2">
-                  <label for="name" class="block text-sm font-medium"
-                    >Province:</label
-                  >
+                  <label for="Province100-4" class="block text-sm font-medium">Province:</label>
                   <input
                     type="text"
-                    id="name"
+                    id="Province100-4"
                     placeholder="Province"
                     class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div class="sm:w-1/2 space-y-2">
-                  <label for="email" class="block text-sm font-medium"
-                    >Postal Code:</label
-                  >
+                  <label for="Postal100-4" class="block text-sm font-medium">Postal Code:</label>
                   <input
                     type="text"
-                    id="email"
+                    id="Postal100-4"
                     placeholder="Postal Code"
                     class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
               <div class="mb-4 space-y-2">
-                <label for="name" class="block text-sm font-medium"
-                  >Street Number:</label
-                >
+                <label for="Street100-4" class="block text-sm font-medium">Street Number:</label>
                 <input
+                  required
                   type="text"
-                  id="name"
+                  id="Street100-4"
                   placeholder="Street Number"
                   class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 />
+                <!-- <p id="Street100-4-error" class="error-message hidden text-red-500">This field is required.</p> -->
               </div>
-
+            
               <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
                 <div class="sm:w-1/2 space-y-2">
-                  <label for="fromDate3" class=" block text-sm font-medium"
-                    >From:</label
-                  >
+                  <label for="fromDate3" class="block text-sm font-medium">From:</label>
                   <input
                     type="date"
                     id="fromDate3"
@@ -911,9 +939,7 @@
                   />
                 </div>
                 <div class="sm:w-1/2 space-y-2">
-                  <label for="toDate3" class="block text-sm font-medium"
-                    >To:</label
-                  >
+                  <label for="toDate3" class="block text-sm font-medium">To:</label>
                   <input
                     type="date"
                     id="toDate3"
@@ -967,6 +993,7 @@
           <div class="my-4">
             <input
               type="checkbox"
+              required
               id="option1"
               value="option1"
               class="p-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
@@ -984,6 +1011,7 @@
             <a>Click to Sign Waiver</a>
           </div>
           <canvas id="signaturePreview" width="300" height="150"></canvas>
+          
           <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
             <div class="sm:w-1/2 space-y-2">
               <label for="agreedby" class="block text-sm font-medium"
@@ -1575,20 +1603,99 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-    // Wait for the script to load before setting up the event listener
-    const script = document.getElementById("search-js");
-      script.onload = function () {
-        console.log("Mapbox Search JS script loaded successfully.");
+const script = document.getElementById("search-js");
+script.onload = function () {
+  console.log("Mapbox Search JS script loaded successfully.");
 
-        // Select the MapboxSearchBox instance
-        const searchBox = document.querySelector("mapbox-search-box");
+  // Select the MapboxSearchBox instance
+  const searchBox = document.querySelector("mapbox-search-box");
 
-        // Set options for the search box
-        searchBox.options = {
-          language: "en", // Change to "en" for English
-          country: "CA", // Change to US or other country as needed
-        };
+  // Set initial options for the search box
+  searchBox.options = {
+    language: "en", // Change to "en" for English
+    country: "CA", // Initially set to Canada
+  };
 
+  // Select the country dropdown, other country input, and cancel button
+  const countryDropdown = document.getElementById("country1");
+  const otherCountryInput = document.getElementById("otherCountry");
+  const otherCountryInputContainer = document.getElementById("otherCountryInput");
+  const cancelButton = document.getElementById("cancelButton");
+
+  // Add an event listener to the dropdown
+  countryDropdown.addEventListener("change", function () {
+    const selectedCountry = countryDropdown.value;
+
+    if (selectedCountry === "Canada") {
+      searchBox.options.country = "CA"; // Set country to Canada
+    } else if (selectedCountry === "United States") {
+      searchBox.options.country = "US"; // Set country to United States
+    } else if (selectedCountry === "other") {
+      // Show the "Other Country" input field
+      otherCountryInputContainer.classList.remove("hidden");
+    }
+  });
+
+  // Add an event listener to the "Other Country" input
+  otherCountryInput.addEventListener("input", async function () {
+    const countryName = otherCountryInput.value.trim();
+
+    if (countryName) {
+      try {
+        // Fetch the Alpha-2 country code from the REST Countries API
+        const alpha2Code = await fetchAlpha2CountryCode(countryName);
+
+        if (alpha2Code) {
+          // Update the searchBox options with the fetched Alpha-2 code
+          searchBox.options.country = alpha2Code;
+          console.log(`Country code set to: ${alpha2Code}`);
+        } else {
+          console.error("Country not found or invalid input.");
+        }
+      } catch (error) {
+        console.error("Error fetching country code:", error);
+      }
+    }
+  });
+
+  // Add an event listener to the Cancel button
+  cancelButton.addEventListener("click", function () {
+    // Reset the dropdown to "Canada"
+    countryDropdown.value = "Canada";
+
+    // Clear the "Other Country" input field
+    otherCountryInput.value = "";
+
+    // Hide the "Other Country" input field
+    otherCountryInputContainer.classList.add("hidden");
+
+    // Reset the searchBox options to the initial value (Canada)
+    searchBox.options.country = "CA";
+
+    console.log("Selection reset to Canada.");
+  });
+
+  // Function to fetch Alpha-2 country code from REST Countries API
+  async function fetchAlpha2CountryCode(countryName) {
+    const apiUrl = `https://restcountries.com/v3.1/name/${countryName}?fullText=true`;
+
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error("Country not found");
+      }
+
+      const data = await response.json();
+      const alpha2Code = data[0]?.cca2; // Extract Alpha-2 code
+      return alpha2Code;
+    } catch (error) {
+      console.error("Error fetching country code:", error);
+      return null;
+    }
+  }
+
+  // Add an event listener to the "Other Country" input
+ 
         // Add event listener for 'retrieve' event when a user selects an address
         searchBox.addEventListener("retrieve", (e) => {
           const feature = e.detail;
@@ -1783,7 +1890,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     
      <a onclick="openModal(${index})" class="underline mb-2" style="color: blue;
-    cursor: pointer;"> <h4 class="font-medium">${address.fromDate} - ${address.toDate} : #[${address.apartment} ] ${address.streetNumber} , ${address.street} , ${address.city} , ${address.province} [${address.country}] </h4></a>
+    cursor: pointer;"> <h4 class="font-medium">${address.fromDate} - ${address.toDate} : #${address.apartment} ${address.streetNumber} , ${address.street} , ${address.city} , ${address.province} , ${address.country}</h4></a>
     </div>
 
 `;
@@ -1914,6 +2021,7 @@ document.addEventListener("DOMContentLoaded", () => {
       resetForm();
 
       // Close the modal
+    
       document.getElementById("addressModal").classList.add("hidden");
     });
   }
@@ -2043,34 +2151,68 @@ document.addEventListener("DOMContentLoaded", () => {
           goToStep(4);
         }
       }
+
+
+
+
       document.addEventListener("DOMContentLoaded", function () {
   // Open the first accordion by default
-  toggleAccordion(1, true); // Force open the first accordion
+  toggleAccordion(1, true);
 
-  // Add event listeners to required fields in each accordion
+  // Add event listeners to icons in each accordion
   setupAccordion(1, 2); // From accordion 1 to accordion 2
   setupAccordion(2, 3); // From accordion 2 to accordion 3
   setupAccordion(3, 4); // From accordion 3 to accordion 4
+  setupAccordion(4, null);
 });
 
 function setupAccordion(currentIndex, nextIndex) {
   const currentAccordionContent = document.getElementById(`accordion-content-${currentIndex}`);
   const requiredFields = currentAccordionContent.querySelectorAll("input[required], select[required]");
+  const checkIcon = document.getElementById(`accordion-icon-${currentIndex}-check`);
 
-  requiredFields.forEach((field) => {
-    field.addEventListener("input", () => {
-      if (areAllRequiredFieldsFilled(requiredFields)) {
-        // Close the current accordion
-        toggleAccordion(currentIndex, false); // Force close
-        // Open the next accordion
-        toggleAccordion(nextIndex, true); // Force open
+  // Add click event listener to the check icon
+  checkIcon.addEventListener("click", () => {
+    if (areAllRequiredFieldsFilled(requiredFields)) {
+      // Change the check icon color to green
+      checkIcon.classList.add("text-green-500");
+      checkIcon.classList.remove("text-gray-500");
+
+      // Close the current accordion
+      toggleAccordion(currentIndex, true); // Force close current accordion
+
+      // Open the next accordion
+      if (nextIndex !== null) {
+        toggleAccordion(nextIndex, true); // Force open next accordion
       }
-    });
+    } else {
+      // Show an error if fields are not filled
+      toggleAccordion(currentIndex, false);
+      // Highlight empty required fields in red
+      highlightEmptyFields(requiredFields);
+
+      // Do not change the icon color or toggle the accordion
+    }
   });
 }
 
 function areAllRequiredFieldsFilled(fields) {
   return Array.from(fields).every((field) => field.value.trim() !== "");
+}
+
+function highlightEmptyFields(fields) {
+  fields.forEach((field) => {
+    if (field.value.trim() === "") {
+      // Add a red border to the empty field
+      field.classList.add("border-red-500");
+
+      // Show the error message below the field
+      const errorMessage = field.nextElementSibling;
+      if (errorMessage && errorMessage.classList.contains("error-message")) {
+        errorMessage.classList.remove("hidden");
+      }
+    }
+  });
 }
 
 function toggleAccordion(index, forceState) {
@@ -2086,7 +2228,7 @@ function toggleAccordion(index, forceState) {
     content.classList.add("hidden");
     icon.classList.remove("rotate-180");
   } else {
-    // Toggle the accordion
+    // Toggle the accordion (not used in this solution)
     if (content.classList.contains("hidden")) {
       content.classList.remove("hidden");
       icon.classList.add("rotate-180");
