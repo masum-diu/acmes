@@ -199,6 +199,18 @@
           <p class="font-medium text-center hidden" id="sex-error-message">
             * Please select sex of applicant
           </p>
+          <p class="font-medium text-center hidden" id="surname-error-message">
+            * Please enter your surname.
+          </p>
+          <p class="font-medium text-center hidden" id="firstName-error-message">
+            * Please enter your firstName.
+          </p>
+          <p class="font-medium text-center hidden" id="placeofbirth-error-message">
+            * Please enter your place of birth.
+          </p>
+          <p class="font-medium text-center hidden" id="emailaddress-error-message">
+            * Please enter your email Address.
+          </p>
         </div>
 
         <form id="form">
@@ -214,6 +226,7 @@
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 required
               />
+              
             </div>
             <div class="sm:w-1/2 space-y-2">
               <label for="firstName" class="block text-sm font-medium"
@@ -1427,21 +1440,49 @@
         let isGeneralValid = true;
         let isTelephoneValid = true;
         let isSexValid = true;
+        let isSurnameValid = true;
+        let isFirstNameValid = true;
+        let isPlaceOfBirthValid = true;
+        let isEmailValid = true;
         
         // Validate general required fields (excluding telephone and sex)
         inputs.forEach((input) => {
           if (
             input.id !== "telephone" &&
+            input.id !== "emailaddress" &&
             input.id !== "sex" && 
+            input.id !== "surname" && input.id !== "firstName" &&input.id !== "placeofbirth"&&
             !input.checkValidity()
           ) {
             isGeneralValid = false;
             input.classList.add("invalid");
-          } else if (input.id !== "telephone" && input.id !== "sex") {
+          } else if (input.id !== "emailaddress" &&input.id !== "firstName" &&input.id !== "surname" && input.id !== "telephone" && input.id !== "sex"&&input.id !== "placeofbirth") {
             input.classList.remove("invalid");
           }
         });
 
+        const emailAddressErrorMessage = document.getElementById("emailaddress-error-message");
+        const emailAddress = document.getElementById("emailaddress");
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(emailAddress.value.trim())) {
+    isEmailValid = false;
+    emailAddress.classList.add("invalid");
+    emailAddressErrorMessage.classList.remove("hidden");
+  } else {
+    emailAddress.classList.remove("invalid");
+    emailAddressErrorMessage.classList.add("hidden");
+  }
+  // Validate the firstName field separately
+  const firstName = document.getElementById("firstName");
+  const firstNameErrorMessage = document.getElementById("firstName-error-message");
+  if (firstName.value.trim() === "") {
+    isFirstNameValid = false;
+    firstName.classList.add("invalid");
+    firstNameErrorMessage.classList.remove("hidden");
+  } else {
+    firstName.classList.remove("invalid");
+    firstNameErrorMessage.classList.add("hidden");
+  }
         // Validate the telephone field separately
         const telephone = document.getElementById("telephone");
         const telephoneValue = telephone.value;
@@ -1455,6 +1496,28 @@
           telephoneErrorMessage.classList.add("hidden");
         }
 
+  // Validate the surname field separately
+  const surname = document.getElementById("surname");
+  const surnameErrorMessage = document.getElementById("surname-error-message");
+  if (surname.value.trim() === "") {
+    isSurnameValid = false;
+    surname.classList.add("invalid");
+    surnameErrorMessage.classList.remove("hidden");
+  } else {
+    surname.classList.remove("invalid");
+    surnameErrorMessage.classList.add("hidden");
+  }
+   // Validate the placeofbirth field separately
+   const placeofbirth = document.getElementById("placeofbirth");
+  const placeofbirthErrorMessage = document.getElementById("placeofbirth-error-message");
+  if (placeofbirth.value.trim() === "") {
+    isPlaceOfBirthValid = false;
+    placeofbirth.classList.add("invalid");
+    placeofbirthErrorMessage.classList.remove("hidden");
+  } else {
+    placeofbirth.classList.remove("invalid");
+    placeofbirthErrorMessage.classList.add("hidden");
+  }
         // Validate the sex field separately
         const sex = document.getElementById("sex");
         if (sex.value === "") {
@@ -1467,7 +1530,7 @@
         }
 
         // Show or hide the general error message based on validation
-        if (!isGeneralValid || !isSexValid) {
+        if (!isFirstNameValid ||!isGeneralValid || !isSexValid||!isSurnameValid||!isPlaceOfBirthValid||!isEmailValid) {
           errorMessageDiv.classList.remove("hidden");
           generalErrorMessage.classList.remove("hidden");
         } else {
@@ -1483,13 +1546,13 @@
      
     }
         // Hide error message container if only telephone is invalid
-        if (isGeneralValid && isSexValid && !isTelephoneValid) {
+        if (isPlaceOfBirthValid &&isFirstNameValid &&isGeneralValid && isSexValid && !isTelephoneValid&& isSurnameValid&&isEmailValid) {
           errorMessageDiv.classList.remove("hidden");
-        } else if (isGeneralValid && isSexValid && isTelephoneValid) {
+        } else if (isPlaceOfBirthValid &&isFirstNameValid &&isGeneralValid && isSexValid && isTelephoneValid&& isSurnameValid&&isEmailValid) {
           errorMessageDiv.classList.add("hidden");
         }
 
-        return isGeneralValid && isTelephoneValid && isSexValid;
+        return isPlaceOfBirthValid &&isFirstNameValid &&isGeneralValid && isTelephoneValid && isSexValid&& isSurnameValid&&isEmailValid;
       };
 
       window.onload = function () {
