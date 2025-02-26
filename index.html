@@ -2148,42 +2148,42 @@ script.onload = function () {
       }
 
       // Validate form and proceed to the next step
-      function validateAndProceed1(event) {
-        event.preventDefault();
+      // function validateAndProceed1(event) {
+      //   event.preventDefault();
 
-        // Example validation (expand with your custom validation logic)
-        const selectedOption = document.querySelector(
-          'input[name="criminal-history"]:checked'
-        );
+      //   // Example validation (expand with your custom validation logic)
+      //   const selectedOption = document.querySelector(
+      //     'input[name="criminal-history"]:checked'
+      //   );
 
-        // Check if a radio button is selected
-        if (!selectedOption) {
-          alert("Please select your criminal history declaration.");
-          return false;
-        }
+      //   // Check if a radio button is selected
+      //   if (!selectedOption) {
+      //     alert("Please select your criminal history declaration.");
+      //     return false;
+      //   }
 
-        // If "No criminal history to declare" is selected, proceed to the next step
-        if (selectedOption.value === "no-criminal-history") {
-          goToStep(3); // Replace with your next step logic
-          return true;
-        }
+      //   // If "No criminal history to declare" is selected, proceed to the next step
+      //   if (selectedOption.value === "no-criminal-history") {
+      //     goToStep(3); // Replace with your next step logic
+      //     return true;
+      //   }
 
-        // If "Declare Criminal History" is selected, check if details are provided
-        const criminalRecords = document.getElementById(
-          "criminal-record-entries"
-        ).children.length;
-        if (
-          selectedOption.value === "declare-criminal-history" &&
-          criminalRecords === 0
-        ) {
-          alert("Please add at least one criminal record entry.");
-          return false;
-        }
+      //   // If "Declare Criminal History" is selected, check if details are provided
+      //   const criminalRecords = document.getElementById(
+      //     "criminal-record-entries"
+      //   ).children.length;
+      //   if (
+      //     selectedOption.value === "declare-criminal-history" &&
+      //     criminalRecords === 0
+      //   ) {
+      //     alert("Please add at least one criminal record entry.");
+      //     return false;
+      //   }
 
-        // Proceed to the next step if all validations pass
-        goToStep(3); // Replace with your next step logic
-        return true;
-      }
+      //   // Proceed to the next step if all validations pass
+      //   goToStep(3); // Replace with your next step logic
+      //   return true;
+      // }
 
       // Go to a specific step in the form (e.g., step 3)
 
@@ -2683,6 +2683,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const criminalHistoryDetails = document.getElementById("criminal-history-details");
   const form = document.getElementById("step-2-form");
 
+  // Function to toggle the visibility of the criminal history details
   function toggleCriminalHistory(show) {
     if (show) {
       criminalHistoryDetails.classList.remove("hidden");
@@ -2691,7 +2692,6 @@ document.addEventListener("DOMContentLoaded", function () {
       criminalHistoryDetails.querySelectorAll("input").forEach(input => {
         input.setAttribute("required", "true");
       });
-
     } else {
       criminalHistoryDetails.classList.add("hidden");
 
@@ -2702,7 +2702,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // Function to validate and proceed to the next step
   function validateAndProceed1(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // Check if "Declare Criminal History" is selected
     if (declareCriminalHistory.checked) {
       // If "Declare Criminal History" is selected, validate required fields
       const requiredFields = criminalHistoryDetails.querySelectorAll("input[required]");
@@ -2710,29 +2714,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
       requiredFields.forEach(input => {
         if (!input.value.trim()) {
-          input.classList.add("border-red-500");
+          input.classList.add("border-red-500"); // Add red border for empty fields
           isValid = false;
         } else {
-          input.classList.remove("border-red-500");
+          input.classList.remove("border-red-500"); // Remove red border if input is filled
         }
       });
 
+      // If any required field is invalid, stop form submission and alert the user
       if (!isValid) {
-        event.preventDefault(); // Stop form submission if required fields are empty
-        alert("Please fill in all required fields before proceeding.");
+        
+        // alert("Please fill in all required fields before proceeding.");
         return false;
       }
     }
 
-    return true; // Allow form submission if valid
+    // If "No criminal history to declare" is selected, proceed directly to the next step
+    if (noCriminalHistory.checked) {
+      goToStep(3); // Go to step 3 without form submission
+      return true; // Prevent form submission here
+    }
+    goToStep(3);
+    // If everything is validated successfully, proceed to the next step
+    return true; 
   }
 
   // Attach event listeners
   noCriminalHistory.addEventListener("click", () => toggleCriminalHistory(false));
   declareCriminalHistory.addEventListener("click", () => toggleCriminalHistory(true));
 
+  // Attach submit event to the form
   form.addEventListener("submit", validateAndProceed1);
 });
+
 
       </script>
   </body>
