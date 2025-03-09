@@ -211,6 +211,18 @@
           <p class="font-medium text-center hidden" id="emailaddress-error-message">
             * Please enter your email Address.
           </p>
+          <p class="font-medium text-center hidden" id="surnameatbirth-error-message">
+            * Please enter your Surname at birth.
+          </p>
+          <p class="font-medium text-center hidden" id="dob-error-message">
+            * Please enter your Date of Birth.
+          </p>
+          <p class="font-medium text-center hidden" id="formername-error-message">
+            * Please enter your Former name(s).
+          </p>
+          <p class="font-medium text-center hidden" id="middlename-error-message">
+            * Please enter your Middle Name.
+          </p>
         </div>
 
         <form id="form">
@@ -259,7 +271,8 @@
               >
               <input
                 type="text"
-                id="surnameatbirth:"
+                id="surnameatbirth"
+                required
                 placeholder="Surname at birth:"
                 class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               />
@@ -490,6 +503,7 @@
                   placeholder="yyyy-mm"
                   class="w-1/3 p-2 border rounded-lg datepicker"
                 />
+                 <p id="DeclareDate-error" class="error-message hidden text-red-500">This field is required.</p>
                 <input
                required
                   type="text"
@@ -1447,10 +1461,17 @@
         let isFirstNameValid = true;
         let isPlaceOfBirthValid = true;
         let isEmailValid = true;
-        
+        let issurnameatbirth=true;
+        let isDobValid=true;
+        let isformername=true;
+        let ismiddlename=true;
         // Validate general required fields (excluding telephone and sex)
         inputs.forEach((input) => {
           if (
+            input.id !== "middlename" &&
+            input.id !== "formername" &&
+            input.id !== "dob" &&
+            input.id !== "surnameatbirth" &&
             input.id !== "telephone" &&
             input.id !== "emailaddress" &&
             input.id !== "sex" && 
@@ -1459,7 +1480,7 @@
           ) {
             isGeneralValid = false;
             input.classList.add("invalid");
-          } else if (input.id !== "emailaddress" &&input.id !== "firstName" &&input.id !== "surname" && input.id !== "telephone" && input.id !== "sex"&&input.id !== "placeofbirth") {
+          } else if (input.id !== "emailaddress" &&input.id !== "firstName" &&input.id !== "surname" && input.id !== "telephone" && input.id !== "sex"&&input.id !== "placeofbirth"&&input.id !== "surnameatbirth"&&input.id !== "dob"&&input.id !== "formername"&&input.id !== "middlename") {
             input.classList.remove("invalid");
           }
         });
@@ -1476,6 +1497,28 @@
     emailAddressErrorMessage.classList.add("hidden");
   }
   // Validate the firstName field separately
+  const middlename = document.getElementById("middlename");
+  const middlenameErrorMessage = document.getElementById("middlename-error-message");
+  if (middlename.value.trim() === "") {
+    ismiddlename = false;
+    middlename.classList.add("invalid");
+    middlenameErrorMessage.classList.remove("hidden");
+  } else {
+    middlename.classList.remove("invalid");
+    middlenameErrorMessage.classList.add("hidden");
+  }
+  // Validate the firstName field separately
+  const formername = document.getElementById("formername");
+  const formernameErrorMessage = document.getElementById("formername-error-message");
+  if (formername.value.trim() === "") {
+    isformername = false;
+    formername.classList.add("invalid");
+    formernameErrorMessage.classList.remove("hidden");
+  } else {
+    formername.classList.remove("invalid");
+    formernameErrorMessage.classList.add("hidden");
+  }
+  // Validate the firstName field separately
   const firstName = document.getElementById("firstName");
   const firstNameErrorMessage = document.getElementById("firstName-error-message");
   if (firstName.value.trim() === "") {
@@ -1485,6 +1528,17 @@
   } else {
     firstName.classList.remove("invalid");
     firstNameErrorMessage.classList.add("hidden");
+  }
+  // Validate the firstName field separately
+  const surnameatbirth = document.getElementById("surnameatbirth");
+  const surnameatbirthErrorMessage = document.getElementById("surnameatbirth-error-message");
+  if (surnameatbirth.value.trim() === "") {
+    issurnameatbirth = false;
+    surnameatbirth.classList.add("invalid");
+    surnameatbirthErrorMessage.classList.remove("hidden");
+  } else {
+    surnameatbirth.classList.remove("invalid");
+    surnameatbirthErrorMessage.classList.add("hidden");
   }
         // Validate the telephone field separately
         const telephone = document.getElementById("telephone");
@@ -1531,31 +1585,35 @@
           sex.classList.remove("invalid");
           sexErrorMessage.classList.add("hidden");
         }
-
+        const dob = document.getElementById("dob");
+        const doberrormessage = document.getElementById("dob-error-message");
+        
+    if (!dob.value) {
+      isDobValid = false;
+      dob.classList.add("invalid");
+      doberrormessage.classList.remove("hidden");
+     
+    } else {
+      dob.classList.remove("invalid");
+      doberrormessage.classList.add("hidden");
+     
+    }
         // Show or hide the general error message based on validation
-        if (!isFirstNameValid ||!isGeneralValid || !isSexValid||!isSurnameValid||!isPlaceOfBirthValid||!isEmailValid) {
+        if (!ismiddlename||!isformername||!isDobValid||!surnameatbirth||!isFirstNameValid ||!isGeneralValid || !isSexValid||!isSurnameValid||!isPlaceOfBirthValid||!isEmailValid) {
           errorMessageDiv.classList.remove("hidden");
           generalErrorMessage.classList.remove("hidden");
         } else {
           generalErrorMessage.classList.add("hidden");
         }
-        const dob = document.getElementById("dob");
-    if (!dob.value) {
-      isDobValid = false;
-      dob.classList.add("invalid");
-     
-    } else {
-      dob.classList.remove("invalid");
-     
-    }
+       
         // Hide error message container if only telephone is invalid
-        if (isPlaceOfBirthValid &&isFirstNameValid &&isGeneralValid && isSexValid && !isTelephoneValid&& isSurnameValid&&isEmailValid) {
+        if (ismiddlename&&isformername&&isDobValid&&surnameatbirth&&isPlaceOfBirthValid &&isFirstNameValid &&isGeneralValid && isSexValid && !isTelephoneValid&& isSurnameValid&&isEmailValid) {
           errorMessageDiv.classList.remove("hidden");
-        } else if (isPlaceOfBirthValid &&isFirstNameValid &&isGeneralValid && isSexValid && isTelephoneValid&& isSurnameValid&&isEmailValid) {
+        } else if (ismiddlename&&isformername&&isDobValid&&surnameatbirth&&isPlaceOfBirthValid &&isFirstNameValid &&isGeneralValid && isSexValid && isTelephoneValid&& isSurnameValid&&isEmailValid) {
           errorMessageDiv.classList.add("hidden");
         }
 
-        return isPlaceOfBirthValid &&isFirstNameValid &&isGeneralValid && isTelephoneValid && isSexValid&& isSurnameValid&&isEmailValid;
+        return ismiddlename&&isformername&&isDobValid&&surnameatbirth&&isPlaceOfBirthValid &&isFirstNameValid &&isGeneralValid && isTelephoneValid && isSexValid&& isSurnameValid&&isEmailValid;
       };
 
       window.onload = function () {
@@ -1588,10 +1646,12 @@
       // If the search box is empty, show the error message and prevent proceeding
       searchBoxMessage.classList.remove("hidden"); // Show the message
       mapboxSearch.classList.add("invalid"); // Highlight the search box in red
+      console.log("remove")
       return; // Stop further execution
     } else {
       searchBoxMessage.classList.add("hidden"); // Hide the message
       mapboxSearch.classList.remove("invalid"); // Remove the highlight
+      console.log("add")
     }
           const formData = {};
           console.log(formData)
@@ -1829,7 +1889,7 @@ script.onload = function () {
         const modalTitle = document.getElementById("modalTitle");
 
         // Reset the form
-        form.reset();
+        // form.reset();
 
         // Show modal
         modal.classList.remove("hidden");
@@ -1917,11 +1977,15 @@ script.onload = function () {
         addresses.push(newAddress);
         renderAddresses();
         closeModal();
+        const searchBoxMessage = document.getElementById("searchBoxMessage");
+  searchBoxMessage.classList.add("hidden");
+  const mapboxSearch = document.getElementById("mapboxSearch");
+  mapboxSearch.classList.remove("invalid");
       }
 
       function updateAddress(event, index) {
         event.preventDefault();
-        const mapboxSearch = document.getElementById("mapboxSearch");
+      
         const countrySelect = document.getElementById("country1");
       const country = countrySelect.value === "other"
         ? document.getElementById("otherCountry").value
@@ -1942,6 +2006,11 @@ script.onload = function () {
         addresses[index] = updatedAddress;
         renderAddresses();
         closeModal();
+        const searchBoxMessage = document.getElementById("searchBoxMessage");
+  searchBoxMessage.classList.add("hidden");
+  console.log("fafasdasd")
+  const mapboxSearch = document.getElementById("mapboxSearch");
+  mapboxSearch.classList.remove("invalid");
       }
 
       function deleteAddress(index) {
@@ -1974,7 +2043,7 @@ script.onload = function () {
 
     
      <a onclick="openModal(${index})" class="underline mb-2" style="color: blue;
-    cursor: pointer;"> <h4 class="font-medium">${address.fromDate} - ${address.toDate} : #${address.apartment} ${address.streetNumber} , ${address.street} , ${address.city} , ${address.province} , ${address.country}</h4></a>
+    cursor: pointer;"> <h4 class="font-medium">${address.fromDate} - ${address.toDate} : #${address.apartment} ${address.streetNumber} , ${address.street} , ${address.city} , ${address.province} ${address.country === 'Canada' ? '' : `, ${address.country}`}</h4></a>
     </div>
 
 `;
@@ -2766,10 +2835,15 @@ document.addEventListener("DOMContentLoaded", function () {
       let isValid = true;
 
       requiredFields.forEach(input => {
+        const DeclareDatemessage = document.getElementById("DeclareDate-error");
+       
         if (!input.value.trim()) {
-          input.classList.add("border-red-500"); // Add red border for empty fields
+          input.classList.add("border-red-500"); 
+          // Add red border for empty fields
+          DeclareDatemessage.classList.remove("hidden");
           isValid = false;
         } else {
+          DeclareDatemessage.classList.remove("hidden");
           input.classList.remove("border-red-500"); // Remove red border if input is filled
         }
       });
