@@ -7,9 +7,22 @@
     <title>Applicant Information</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom CSS to style invalid required fields */
+        @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Lato", sans-serif;
+        }
+
         .invalid {
             border-color: red !important;
+        }
+
+        .error-message {
+            color: red;
+            display: none;
         }
     </style>
 </head>
@@ -19,27 +32,29 @@
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-6xl">
         <h2 class="text-2xl font-bold text-center text-blue-500">Applicant Information</h2>
 
-        <form  id="applicantForm" class="mt-6" novalidate>
+        <form id="applicantForm" class="mt-6" novalidate>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Email -->
                 <div>
                     <label for="email" class="block text-gray-700 font-medium">Applicant Email</label>
                     <input type="email" required id="email" name="email" placeholder="Enter email"
                         class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                    <div id="email-error" class="error-message">Please enter a valid email address</div>
                 </div>
-
 
                 <!-- Last Name -->
                 <div>
                     <label for="last-name" class="block text-gray-700 font-medium">Sumame (Last Name)</label>
                     <input type="text" required id="last-name" name="last-name" placeholder="Enter last name"
                         class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                    <div id="last-name-error" class="error-message">Please enter your last name</div>
                 </div>
                 <!-- First Name -->
                 <div>
                     <label for="first-name" class="block text-gray-700 font-medium">First Name</label>
                     <input type="text" required id="first-name" name="first-name" placeholder="Enter first name"
                         class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                    <div id="first-name-error" class="error-message">Please enter your first name</div>
                 </div>
 
                 <!-- Middle Name -->
@@ -49,12 +64,12 @@
                         class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
                 </div>
 
-
                 <!-- Telephone -->
                 <div>
                     <label for="telephone" class="block text-gray-700 font-medium">Telephone</label>
                     <input type="tel" required id="telephone" name="telephone" placeholder="Enter telephone number"
                         class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                    <div id="telephone-error" class="error-message">Please enter your telephone number</div>
                 </div>
 
                 <!-- Client Reference Number -->
@@ -67,193 +82,171 @@
                 </div>
             </div>
 
-            <!-- Additional Information (Full Width) -->
+            <!-- Additional Information -->
             <div class="mt-4">
                 <label for="additional-info" class="block text-gray-700 font-medium">Additional Processing Info</label>
                 <textarea id="additional-info" name="additional-info" rows="4" placeholder="Write additional details"
                     class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"></textarea>
             </div>
-            <!-- services area -->
+
+            <!-- Services Selection -->
             <div class="bg-gray-300 p-1 mt-3">
                 <p>Services Selection <span class="font-bold">Not for Vulnerable Sector</span></p>
-
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-3 border-b-2 border-black">
-                <div class="flex items-center mb-4">
 
-                </div>
-                <!-- <div class="flex items-center mb-4">
-                    <label for="agree" class="ml-2 text-gray-700">Fee</label>
-                </div> -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-3 border-b-2 border-black">
+                <div class="flex items-center mb-4"></div>
                 <div class="flex items-center mb-4">
                     <label for="agree" class="ml-2 text-gray-700">Hint for Applicant</label>
                 </div>
-                
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 pt-3 ">
-                <!-- <div class="flex items-center mb-4">
-                    <input type="checkbox" id="agree" name="agree"
-                        class="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-400">
-                    <label for="agree" class="ml-2 text-gray-700 ">Standard Police Records Search</label>
-                </div> -->
-                <!-- <div class="flex items-center mb-4">
-                    <label for="agree" class="ml-2 text-gray-700">$20.00</label>
-                </div> -->
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 pt-3">
                 <div class="flex items-center mb-4">
-                    <!-- <input type="text" id="client-reference" name="client-reference"
-                        class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"> -->
-                </div>
-                <!-- <div class="flex items-center mb-4">
-                    <input type="checkbox" id="agree" name="agree"
+                    <input type="checkbox" id="police-checks" name="services" value="Police checks included"
                         class="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-400">
-                    <label for="agree" class="ml-2 text-gray-700 ">Consumer credit check</label>
-                </div> -->
-                <!-- <div class="flex items-center mb-4">
-                    <label for="agree" class="ml-2 text-gray-700">$20.00</label>
-                </div> -->
-                <div class="flex items-center mb-4">
-                    <!-- <input type="text" id="client-reference" name="client-reference"
-                        class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"> -->
+                    <label for="police-checks" class="ml-2 text-gray-700">Police checks included</label>
                 </div>
                 <div class="flex items-center mb-4">
-                    <input type="checkbox" id="agree" name="agree"
-                        class="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-400">
-                    <label for="agree" class="ml-2 text-gray-700 ">Police checks included</label>
-                </div>
-                <!-- <div class="flex items-center mb-4">
-                    <label for="agree" class="ml-2 text-gray-700">$20.00</label>
-                </div> -->
-                <div class="flex items-center mb-4">
-                    <input type="text" id="client-reference" name="client-reference"
+                    <input type="text" name="police-checks-hint" placeholder="Enter hint"
                         class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
                 </div>
+
                 <div class="flex items-center mb-4">
-                    <input type="checkbox" id="agree" name="agree"
+                    <input type="checkbox" id="non-police-data-entry" name="services"
+                        value="Non-police service checks requiring some data entry included"
                         class="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-400">
-                    <label for="agree" class="ml-2 text-gray-700 ">Non-police service checks requiring some data entry included</label>
+                    <label for="non-police-data-entry" class="ml-2 text-gray-700">Non-police service checks requiring
+                        some data entry included</label>
                 </div>
-                <!-- <div class="flex items-center mb-4">
-                    <label for="agree" class="ml-2 text-gray-700">$20.00</label>
-                </div> -->
                 <div class="flex items-center mb-4">
-                    <input type="text" id="client-reference" name="client-reference"
+                    <input type="text" name="non-police-data-entry-hint" placeholder="Enter hint"
                         class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
                 </div>
+
                 <div class="flex items-center mb-4">
-                    <input type="checkbox" id="agree" name="agree"
+                    <input type="checkbox" id="non-police-no-entry" name="services"
+                        value="Non-police service checks requiring no data entry included"
                         class="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-400">
-                    <label for="agree" class="ml-2 text-gray-700 ">Non-police service checks requiring no data entry included</label>
+                    <label for="non-police-no-entry" class="ml-2 text-gray-700">Non-police service checks requiring no
+                        data entry included</label>
                 </div>
-                <!-- <div class="flex items-center mb-4">
-                    <label for="agree" class="ml-2 text-gray-700">$20.00</label>
-                </div> -->
                 <div class="flex items-center mb-4">
-                    <input type="text" id="client-reference" name="client-reference"
+                    <input type="text" name="non-police-no-entry-hint" placeholder="Enter hint"
                         class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
                 </div>
+
                 <div class="flex items-center mb-4">
-                    <input type="checkbox" id="agree" name="agree"
+                    <input type="checkbox" id="applicant-payment" name="services" value="Applicant makes payment"
                         class="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-400">
-                    <label for="agree" class="ml-2 text-gray-700 ">Applicant makes payment</label>
+                    <label for="applicant-payment" class="ml-2 text-gray-700">Applicant makes payment</label>
                 </div>
-                <!-- <div class="flex items-center mb-4">
-                    <label for="agree" class="ml-2 text-gray-700">$20.00</label>
-                </div> -->
                 <div class="flex items-center mb-4">
-                    <input type="text" id="client-reference" name="client-reference"
+                    <input type="text" name="applicant-payment-hint" placeholder="Enter hint"
                         class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
                 </div>
-                
             </div>
-           
-                <h4 class="text-lg font-semibold mb-3">Select a Colour</h4>
-        
-                <select id="colorSelect" onchange="showSelectedColor()"
-                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="">-- Select a colour --</option>
-                    <option value="Red">Red</option>
-                    <option value="Blue">Blue</option>
-                    <option value="Green">Green</option>
-                </select>
-                <h4 class="text-lg font-semibold mb-5 pt-5">Logo Upload</h4>
-                <div class="  bg-white rounded-xl text-center mb-5">
-                    <div id="dropzone" class="border-2 border-dashed border-gray-300 rounded-lg p-6 cursor-pointer hover:border-blue-500 transition">
-                        <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="previewImage(event)" />
-                        <p class="text-gray-500">Drag & Drop an image or <span class="text-blue-600 font-semibold">Click to Upload</span></p>
-                        <div id="imagePreview" class="mt-4"></div>
-                    </div>
+
+            <h4 class="text-lg font-semibold mb-3 mt-4">Select a Colour</h4>
+            <select id="colorSelect" name="color"
+                class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">-- Select a colour --</option>
+                <option value="Red">Red</option>
+                <option value="Blue">Blue</option>
+                <option value="Green">Green</option>
+            </select>
+
+            <h4 class="text-lg font-semibold mb-5 pt-5">Logo Upload</h4>
+            <div class="bg-white rounded-xl text-center mb-5">
+                <div 
+                    class="border-2 border-dashed border-gray-300 rounded-lg p-6 cursor-pointer hover:border-blue-500 transition">
+                    <input type="url" id="logoUrlInput"
+                        class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Paste image URL here (e.g., https://example.com/logo.png)" pattern="https?://.+"
+                        required>
+                    
                 </div>
-            
-           
-            <!-- Submit Button -->
+            </div>
+
             <button type="submit"
                 class="mt-6 w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-300">
                 Issue Invitation
             </button>
         </form>
     </div>
+
     <script>
-        // JavaScript to handle form submission and validation
-        const form = document.getElementById('applicantForm');
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('applicantForm');
+            const logoUrlInput = document.getElementById('logoUrlInput');
+            console.log(logoUrlInput)
+            // Form validation and submission
+            const requiredFields = form.querySelectorAll('[required]');
+            requiredFields.forEach(field => {
+                field.addEventListener('input', function () {
+                    if (this.value.trim() !== '') {
+                        this.classList.remove('invalid');
+                        const errorElement = document.getElementById(`${this.id}-error`);
+                        if (errorElement) errorElement.style.display = 'none';
+                    }
 
-        form.addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent form submission
-
-            // Remove any existing invalid classes
-            const inputs = form.querySelectorAll('input, textarea');
-            inputs.forEach(input => input.classList.remove('invalid'));
-
-            // Check for invalid fields
-            let isValid = true;
-            inputs.forEach(input => {
-                if (input.required && !input.value.trim()) {
-                    input.classList.add('invalid'); // Add invalid class
-                    isValid = false;
-                }
+                    if (this.id === 'email' && this.value.trim() !== '') {
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (!emailRegex.test(this.value)) {
+                            this.classList.add('invalid');
+                            const errorElement = document.getElementById(`${this.id}-error`);
+                            if (errorElement) errorElement.style.display = 'block';
+                        }
+                    }
+                });
             });
 
-            // If form is valid, submit it
-            if (isValid) {
-                form.submit(); // Submit the form
-                window.location.href = "applicant.html";
-            } 
-        });
-    </script>
-     <script>
-        const dropzone = document.getElementById("dropzone");
-        const fileInput = document.getElementById("fileInput");
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                let isValid = true;
 
-        dropzone.addEventListener("click", () => fileInput.click());
+                // Validate required fields
+                requiredFields.forEach(input => {
+                    if (!input.value.trim()) {
+                        input.classList.add('invalid');
+                        const errorElement = document.getElementById(`${input.id}-error`);
+                        if (errorElement) errorElement.style.display = 'block';
+                        isValid = false;
+                    }
 
-        dropzone.addEventListener("dragover", (e) => {
-            e.preventDefault();
-            dropzone.classList.add("border-blue-500");
-        });
+                    if (input.id === 'email' && input.value.trim()) {
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (!emailRegex.test(input.value)) {
+                            input.classList.add('invalid');
+                            const errorElement = document.getElementById(`${input.id}-error`);
+                            if (errorElement) errorElement.style.display = 'block';
+                            isValid = false;
+                        }
+                    }
+                });
 
-        dropzone.addEventListener("dragleave", () => {
-            dropzone.classList.remove("border-blue-500");
-        });
+                if (!isValid) return;
 
-        dropzone.addEventListener("drop", (e) => {
-            e.preventDefault();
-            dropzone.classList.remove("border-blue-500");
-            fileInput.files = e.dataTransfer.files;
-            previewImage({ target: fileInput });
-        });
+                // Collect form data
+                const formData = {
 
-        function previewImage(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function () {
-                    const previewDiv = document.getElementById("imagePreview");
-                    previewDiv.innerHTML = `<img src="${reader.result}" class="mt-2 w-40 h-40 object-cover rounded-lg shadow-md border border-gray-300"/>`;
+                    services: {
+                        selectedServices: Array.from(form.querySelectorAll('input[name="services"]:checked')).map(cb => cb.value),
+
+                    },
+                    preferences: {
+                        color: form.color.value,
+                        logo: logoUrlInput.value.trim()
+                    }
                 };
-                reader.readAsDataURL(file);
-            }
-        }
-    </script>
 
+                // Store in localStorage
+                localStorage.setItem('applicantFormData', JSON.stringify(formData));
+                console.log('Form data saved to localStorage:', formData);
+                window.location.href = "applicant.html";
+            });
+        });
+    </script>
 </body>
 
 </html>

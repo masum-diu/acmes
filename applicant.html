@@ -15,6 +15,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Acme</title>
     <style>
+
 .text-gray-500 {
   color: #6b7280; /* Gray color */
 }
@@ -85,7 +86,7 @@
   <body>
     <div class="max-w-6xl mx-auto py-5 px-5">
       <nav class="bg-gray-200 shadow-sm w-full flex-row space-x-2">
-        <img class="w-28 my-1 p-1" src="https://i.imghippo.com/files/d1912QA.png" alt="25x25 Image" />
+        <img id="navLogo" class="w-28 my-1 p-1" src="https://i.imghippo.com/files/d1912QA.png" alt="25x25 Image" />
         <div>
           <h4 class="font-bold">ZAMAN, Mobin Mixed</h4>
           <p>2007/01/01</p>
@@ -2749,5 +2750,48 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
       </script>
+     <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Default logo URL - using a reliable placeholder
+    const defaultLogo = "https://i.imghippo.com/files/d1912QA.png";
+    const navLogo = document.getElementById('navLogo');
+    
+    // Set default logo immediately (fallback while checking)
+    navLogo.src = defaultLogo;
+    navLogo.alt = "Default Logo";
+    navLogo.onerror = function() {
+      this.src = defaultLogo;
+      this.alt = "Fallback Logo";
+    };
+    
+    try {
+      // Retrieve stored form data
+      const storedData = localStorage.getItem('applicantFormData');
+      
+      if (storedData) {
+        const formData = JSON.parse(storedData);
+        
+        // Update logo if available in preferences
+        if (formData.preferences?.logo) {
+          // Create new image to test if it loads
+          const testImg = new Image();
+          testImg.src = formData.preferences.logo;
+          
+          testImg.onload = function() {
+            navLogo.src = formData.preferences.logo;
+            console.log('Logo successfully updated');
+          };
+          
+          testImg.onerror = function() {
+            console.warn('Custom logo failed to load, using default');
+            navLogo.src = defaultLogo;
+          };
+        }
+      }
+    } catch (error) {
+      console.error('Error processing applicant data:', error);
+    }
+  });
+</script>
   </body>
 </html>
